@@ -50,10 +50,6 @@ phases:
     # run-as: Linux-user-name
     on-failure: ABORT | CONTINUE
     commands:
-     - sudo chown -R $USER:www-data storage
-     - sudo chown -R $USER:www-data bootstrap/cache
-     - chmod -R 775 storage
-     - chmod -R 775 bootstrap/cache
      - cp .env.example .env
      - composer install
      - npm install
