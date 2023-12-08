@@ -71,10 +71,10 @@ phases:
     #   - command
     # steps:
   post_build:
-    # run-as: Linux-user-name
+    run-as: root
     on-failure: ABORT | CONTINUE
     commands:
-    #   - command
+      - php artisan optimize
     # finally:
     #   - command
     #   - command
