@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\VesselController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +31,8 @@ Route::prefix('payments')->group(function () {
     Route::post('/create-stripe-payment-intent', [StripeController::class, 'stripePaymentIntent']);
     Route::post('/create-checkout-session', [StripeController::class, 'createCheckoutSession']);
     Route::post('/verify-check-out', [StripeController::class, 'verifyCheckoutSession'])->name('subscription.verify');
+});
+
+Route::prefix('vessels')->group(function () {
+    Route::get('/', [VesselController::class, 'getVessels']);
 });
