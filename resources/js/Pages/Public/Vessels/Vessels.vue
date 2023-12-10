@@ -15,10 +15,54 @@ import { Head } from '@inertiajs/vue3';
             <v-col class = 'm-4' >
                 <v-sheet>
                     <v-row>
-                        <v-col cols='12' md='8'>
+                        <v-col cols='12' md='9'>
                             <v-row>
-                                <v-col v-for = 'vessel in vessels' cols='12' sm='6'>
+                                <v-col v-for = 'vessel,index in vessels' cols='12' sm='6' md='4'>
                                     <v-card>
+                                        <v-window
+                                            v-model="selectedItem[index]"
+                                            show-arrows="hover"
+                                          >
+                                            <template v-slot:prev="{ props }">
+                                                 <v-btn
+                                                 variant = 'text'
+                                                   @click="props.onClick"
+                                                 >
+                                                   <v-icon
+                                                   size='5vh'
+                                                   color='white'
+                                                   >
+                                                       mdi-chevron-left
+                                                   </v-icon>
+                                                 </v-btn>
+                                               </template>
+                                               <template v-slot:next="{ props }">
+                                                 <v-btn
+                                                 variant = 'text'    
+                                                   @click="props.onClick"
+                                                 >
+                                                   <v-icon
+                                                   size='5vh'
+                                                   color='white'
+                                                   >
+                                                       mdi-chevron-right
+                                                   </v-icon>
+                                                 </v-btn>
+                                               </template>
+                                            <v-window-item
+                                              v-for="(slide, i) in slides" 
+                                              :key="i"
+                                            >
+
+                                                 <v-img
+                                                 :src = "slide.image"
+                                                 cover
+                                                 height='25vh'
+                                                 >                                                     
+                                                 </v-img>
+
+                                            </v-window-item>
+                                          </v-window>
                                         <v-card-title>{{ vessel.make }}</v-card-title>
                                         <v-card-subtitle>
                                             {{ vessel.type.name }} 
@@ -26,11 +70,20 @@ import { Head } from '@inertiajs/vue3';
                                             Sleeps 
                                             {{ vessel.sleeps}}
                                         </v-card-subtitle>
+                                        <v-card-subtitle>
+                                            {{ vessel.location.city}} , {{ vessel.location.state.name}}
+                                        </v-card-subtitle>
+                                        <v-card-text>
+                                            <v-sheet class='font-weight-black text-h5'>
+                                                ${{ vessel.rate.base_nightly_price}}/night
+                                            </v-sheet>
+                                        </v-card-text>
                                     </v-card>
+
                                 </v-col>
                             </v-row>
                         </v-col>
-                        <v-col cols='4' class = "d-none d-sm-none d-md-flex">
+                        <v-col cols='3' class = "d-none d-sm-none d-md-flex">
                             as
                         </v-col>
                     </v-row>
@@ -45,6 +98,39 @@ export default {
   data() {
     return {
       vessels:[],
+      selectedItem: null,
+      slides: [
+        {
+          title: 'TERRA PC-BUSINESS 5050S',
+          image: 'https://picsum.photos/500/300?image=15',
+          price: 559
+        },
+        {
+          title: 'TERRA PC-BUSINESS 5000',
+          image: 'https://picsum.photos/500/300?image=16',
+          price: 609
+        },
+        {
+          title: 'TERRA PC-Micro 6000SE SILENT GREENLINE ',
+          image: 'https://picsum.photos/500/300?image=17',
+          price: 689
+        },
+        {
+          title: 'HP ENVY 5030 multifunction printer',
+          image: 'https://picsum.photos/500/300?image=18',
+          price: 66
+        },
+        {
+          title: 'TERRA PC-BUSINESS 5050S',
+          image: 'https://picsum.photos/500/300?image=19',
+          price: 559
+        },
+        {
+          title: 'TERRA PC-BUSINESS 5000',
+          image: 'https://picsum.photos/500/300?image=20',
+          price: 609
+        }
+      ]
     };
   },
   
@@ -62,10 +148,18 @@ export default {
         .get('/api/vessels/')
         .then(response => {
             this.vessels = response.data;
-            console.log(response.data);
+            this.selectedItem = Array(response.data.length).fill(0);
         })
         .catch();
     },
+    prev(vesselIndex){
+        this.selectedItem[vesselIndex]--;
+        console.log(this.selectedItem[vesselIndex]);
+    },
+    next(vesselIndex){
+        this.selectedItem[vesselIndex]++;
+        console.log(this.selectedItem[vesselIndex]);
+    }
   },
 };
 </script>
