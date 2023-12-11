@@ -163,7 +163,7 @@ export default {
         .get('/api/vessels/')
         .then(response => {
             this.vessels = response.data;
-            console.log(this.vessels[0].vessel_images[0].thumbnailUrl);
+            console.log(this.vessels[0]);
             // this.selectedItem = Array(response.data.length).fill(0);
         })
         .catch();

@@ -35,4 +35,5 @@ Route::prefix('payments')->group(function () {
 
 Route::prefix('vessels')->group(function () {
     Route::get('/', [VesselController::class, 'getVessels']);
+    Route::get('/get-id', [VesselController::class, 'getVesselById']);
 });
