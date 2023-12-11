@@ -23,4 +23,9 @@ class Vessel extends Model
     {
         return $this->belongsTo(Rate::class);
     }
+
+    public function vesselImages()
+    {
+        return $this->hasMany(VesselImage::class);
+    }
 }

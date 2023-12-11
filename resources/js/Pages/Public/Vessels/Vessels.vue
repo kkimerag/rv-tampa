@@ -19,8 +19,7 @@ import { Head } from '@inertiajs/vue3';
                             <v-row>
                                 <v-col v-for = 'vessel,index in vessels' cols='12' sm='6' md='4'>
                                     <v-card>
-                                        <v-window
-                                            v-model="selectedItem[index]"
+                                        <v-window v-if = "vessel.vessel_images.length > 0"
                                             show-arrows="hover"
                                           >
                                             <template v-slot:prev="{ props }">
@@ -49,20 +48,36 @@ import { Head } from '@inertiajs/vue3';
                                                    </v-icon>
                                                  </v-btn>
                                                </template>
-                                            <v-window-item
-                                              v-for="(slide, i) in slides" 
-                                              :key="i"
-                                            >
+                                                <v-window-item
+                                                v-for="(image, i) in vessel.vessel_images" 
+                                                :key="i"
+                                                >
 
-                                                 <v-img
-                                                 :src = "slide.image"
-                                                 cover
-                                                 height='25vh'
-                                                 >                                                     
-                                                 </v-img>
-
-                                            </v-window-item>
+                                                     <v-img
+                                                     :src = "image.thumbnailUrl"
+                                                     cover
+                                                     height='25vh'
+                                                     >                                                       <template v-slot:placeholder>
+                                                          <v-row
+                                                            class="fill-height ma-0"
+                                                            align="center"
+                                                            justify="center"
+                                                          >
+                                                            <v-progress-circular
+                                                              indeterminate
+                                                              color="grey-lighten-5"
+                                                            ></v-progress-circular>
+                                                          </v-row>
+                                                        </template>
+                                                     </v-img>
+                                                </v-window-item>
                                           </v-window>
+                                          <v-img v-else
+                                          height='25vh'
+                                          src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+                                          >
+                                              
+                                          </v-img>
                                         <v-card-title>{{ vessel.make }}</v-card-title>
                                         <v-card-subtitle>
                                             {{ vessel.type.name }} 
@@ -98,7 +113,7 @@ export default {
   data() {
     return {
       vessels:[],
-      selectedItem: null,
+      // selectedItem: null,
       slides: [
         {
           title: 'TERRA PC-BUSINESS 5050S',
@@ -148,17 +163,18 @@ export default {
         .get('/api/vessels/')
         .then(response => {
             this.vessels = response.data;
-            this.selectedItem = Array(response.data.length).fill(0);
+            console.log(this.vessels[0].vessel_images[0].thumbnailUrl);
+            // this.selectedItem = Array(response.data.length).fill(0);
         })
         .catch();
     },
     prev(vesselIndex){
-        this.selectedItem[vesselIndex]--;
-        console.log(this.selectedItem[vesselIndex]);
+        // this.selectedItem[vesselIndex]--;
+        // console.log(this.selectedItem[vesselIndex]);
     },
     next(vesselIndex){
-        this.selectedItem[vesselIndex]++;
-        console.log(this.selectedItem[vesselIndex]);
+        // this.selectedItem[vesselIndex]++;
+        // console.log(this.selectedItem[vesselIndex]);
     }
   },
 };
