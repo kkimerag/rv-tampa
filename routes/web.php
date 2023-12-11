@@ -42,6 +42,9 @@ Route::prefix('public')->group(function () {
     Route::get('/vessels/details/{folderId}' , function($folderId){
         return Inertia::render('Public/Vessels/Vessel', ['vessel_id' => $folderId,]);
     });
+    Route::get('/vessels/details/{folderId}/checkout' , function($folderId){
+        return Inertia::render('Public/Vessels/Checkout', ['vessel_id' => $folderId,]);
+    });
 });
 
 require __DIR__.'/auth.php';

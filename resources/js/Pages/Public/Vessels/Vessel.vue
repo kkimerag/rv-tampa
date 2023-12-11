@@ -13,7 +13,7 @@ import { Head } from '@inertiajs/vue3';
 
         <v-row>
             <v-col class='d-flex justify-center m-4'>
-                <v-sheet  width='70vw'>
+                <v-sheet  width='80vw'>
                     <v-row>
                         <v-col cols='12'>
                             <v-row>
@@ -201,7 +201,6 @@ import { Head } from '@inertiajs/vue3';
                                                             :allowed-dates='allowedDates'
                                                             multiple
                                                             @update:modelValue="setRage()"
-                                                            @input="handleInput"
                                                             @update:month="highlightBookedDates"
                                                             >
                                                             </v-date-picker>
@@ -213,7 +212,13 @@ import { Head } from '@inertiajs/vue3';
 
                                         <!-- RESERVATION SECTION -->
                                         <v-col cols='4'>
-                                            Reservation Component
+                                            <ReservationComponent
+                                            :vessel_price = 'vessel.rate.base_nightly_price'
+                                            :deposit = 'vessel.rate.deposit'
+                                            :booking_dates='date'
+                                            :booking_days = 'bookingRange'
+                                            >
+                                            </ReservationComponent>
                                         </v-col>
                                     </v-row>
                                 </v-col>
@@ -230,6 +235,7 @@ import { Head } from '@inertiajs/vue3';
 </template>
 
 <script>
+    import ReservationComponent from "./sub_components/ReservationComponent.vue";
 export default {
     props: {
         vessel_id: String
@@ -237,7 +243,7 @@ export default {
   data() {
     return {
         vessel:null,
-        date: null,
+        date: [],
         loading:true,
         allowedDates: [],
         bookingRange:[],
@@ -288,12 +294,12 @@ export default {
               return a - b;
             });
             this.getDatesInRange( this.date[0] , this.date[1] )
+            this.updateURL();
         }  
         
         this.highlightBookedDates();
     },
     highlightBookedDates(){
-
         this.clearHighlight();
         this.$nextTick(() => {
             this.clearHighlight(); 
@@ -306,9 +312,7 @@ export default {
                     }
                 });
             });              
-        });
-        
-        
+        });        
     },
     clearHighlight(){
         this.calendarElements = this.$refs.calendar.$el.querySelectorAll('.v-date-picker-month__day');
@@ -322,8 +326,6 @@ export default {
         //         // element.classList.remove('booked');
         //     });                
         // });
-
-        
     },
     getDatesInRange(startDate, endDate) {
         const dates = [];
@@ -340,8 +342,7 @@ export default {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
-    },
-    
+    },    
     getDaysToEndOfMonth() {
         const today = new Date();
         const oneYearFromNow = new Date();
@@ -350,14 +351,16 @@ export default {
         for (let currentDate = today; currentDate <= oneYearFromNow; currentDate.setDate(currentDate.getDate() + 1)) {
           this.allowedDates.push(this.formatDate(currentDate));
         }
-      
     },
-    handleInput(value){
-        // Manipulate the date to display two continuous months
-        console.log(value);
-          const nextMonth = new Date(value);
-          nextMonth.setMonth(nextMonth.getMonth() + 1);
-          this.$refs.datePicker.tableDate = nextMonth;
+    updateURL() {
+        const currentURL = new URL(window.location.href);
+        const params = new URLSearchParams(currentURL.search);
+
+        params.set('StartDate', this.formatDate(this.date[0]));
+        params.set('EndDate', this.formatDate(this.date[1]));
+
+        const newURL = `${currentURL.pathname}?${params.toString()}`;
+        window.history.pushState({}, '', newURL);
     }
   },
 };
