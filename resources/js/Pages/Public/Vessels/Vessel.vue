@@ -188,7 +188,7 @@ import { Head } from '@inertiajs/vue3';
                                                             </v-row>
                                                         </v-col>
                                                     </v-row>
-                                                    <v-divider thickness="5">
+                                                    <v-divider thickness="5" class='mb-4'>
                                                     </v-divider>
                                                     <v-row>
                                                         <v-col>
@@ -197,6 +197,7 @@ import { Head } from '@inertiajs/vue3';
                                                             v-model='date'
                                                             color="light-blue-darken-4"
                                                             ref = 'calendar'
+                                                            hide-header
                                                             :allowed-dates='allowedDates'
                                                             multiple
                                                             @update:modelValue="setRage()"
