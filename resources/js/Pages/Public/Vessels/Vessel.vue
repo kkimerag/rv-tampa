@@ -130,16 +130,17 @@ import { Head } from '@inertiajs/vue3';
                                  </v-row>
                                 </v-col>
                             </v-row>
-    
+                            <!-- INFO SECTION -->
                             <v-row>
                                 <v-col v-if='vessel'>
                                     <v-progress-linear 
                                     indeterminate 
                                     :active="loading"
-                                    :indeterminate="loading"
+
                                     >
                                     </v-progress-linear>
                                     <v-row>
+                                        <!-- INFORMATION SECTION -->
                                         <v-col cols='8'>
                                             <v-card
                                             flat
@@ -194,8 +195,13 @@ import { Head } from '@inertiajs/vue3';
                                                             <div class="text-xl">Availability and rates</div>
                                                             <v-date-picker
                                                             v-model='date'
+                                                            color="light-blue-darken-4"
+                                                            ref = 'calendar'
+                                                            :allowed-dates='allowedDates'
                                                             multiple
                                                             @update:modelValue="setRage()"
+                                                            @input="handleInput"
+                                                            @update:month="highlightBookedDates"
                                                             >
                                                             </v-date-picker>
                                                         </v-col>
@@ -203,8 +209,10 @@ import { Head } from '@inertiajs/vue3';
                                                 </v-card-text>
                                             </v-card>
                                         </v-col>
+
+                                        <!-- RESERVATION SECTION -->
                                         <v-col cols='4'>
-                                            saf
+                                            Reservation Component
                                         </v-col>
                                     </v-row>
                                 </v-col>
@@ -230,11 +238,15 @@ export default {
         vessel:null,
         date: null,
         loading:true,
+        allowedDates: [],
+        bookingRange:[],
+        calendarElements:[]
     };
   },
   
   mounted() {
     this.getVessel();
+    this.getDaysToEndOfMonth();
   },
 
   create(){
@@ -253,13 +265,109 @@ export default {
         .then(response => {
             this.vessel = response.data;
             this.loading = false;
-            console.log(response.data);
+            // console.log(response.data);
         })
         .catch();
     },
     setRage(){
-        console.log(this.date);
+        const daysSelected = this.date.length;
+        if (daysSelected == 3 ){
+            this.clearHighlight();
+            this.$nextTick(() => {
+                this.clearHighlight();
+                this.$nextTick(() => {
+                    this.clearHighlight();               
+                });               
+            });
+            this.date.shift();
+            this.date.shift();  
+            // this.clearHighlight();          
+        }else if(daysSelected == 2){
+            this.date.sort(function(a, b) {
+              return a - b;
+            });
+            this.getDatesInRange( this.date[0] , this.date[1] )
+        }  
+        
+        this.highlightBookedDates();
+    },
+    highlightBookedDates(){
+
+        this.clearHighlight();
+        this.$nextTick(() => {
+            this.clearHighlight(); 
+            this.$nextTick( () => {
+                this.calendarElements = this.$refs.calendar.$el.querySelectorAll('.v-date-picker-month__day');
+                this.calendarElements.forEach((element) => {
+                    const dateAttribute = element.getAttribute('data-v-date'); 
+                    if (dateAttribute && this.bookingRange.some(date => this.formatDate(date) === dateAttribute)) {
+                      element.classList.add('booked');
+                    }
+                });
+            });              
+        });
+        
+        
+    },
+    clearHighlight(){
+        this.calendarElements = this.$refs.calendar.$el.querySelectorAll('.v-date-picker-month__day');
+
+        this.calendarElements.forEach((element) => {
+                element.classList.remove('booked');
+              });
+
+        // this.$nextTick(() => {
+        //     this.calendarElements.forEach((element) => {
+        //         // element.classList.remove('booked');
+        //     });                
+        // });
+
+        
+    },
+    getDatesInRange(startDate, endDate) {
+        const dates = [];
+        let currentDate = new Date(startDate);
+
+        while (currentDate <= endDate) {
+          dates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        this.bookingRange = dates;
+    },
+    formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    },
+    
+    getDaysToEndOfMonth() {
+        const today = new Date();
+        const oneYearFromNow = new Date();
+        oneYearFromNow.setFullYear(today.getFullYear() + 1);
+
+        for (let currentDate = today; currentDate <= oneYearFromNow; currentDate.setDate(currentDate.getDate() + 1)) {
+          this.allowedDates.push(this.formatDate(currentDate));
+        }
+      
+    },
+    handleInput(value){
+        // Manipulate the date to display two continuous months
+        console.log(value);
+          const nextMonth = new Date(value);
+          nextMonth.setMonth(nextMonth.getMonth() + 1);
+          this.$refs.datePicker.tableDate = nextMonth;
     }
   },
 };
 </script>
+
+<style type="text/css">
+    .booked{
+        background-color: #4FC3F7;
+    }
+    .booked button{
+/*        color: #B3E5FC;*/
+        background-color: #4FC3F7;
+    }
+</style>
