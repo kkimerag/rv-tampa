@@ -74,12 +74,6 @@ phases:
     run-as: root
     on-failure: ABORT | CONTINUE
     commands:
-      # - cd /var/app/current
-      - pwd
-      - ls -al
-      - cd /var/app/current
-      - php artisan config:cache
-      - php artisan cache:clear
       - php artisan optimize
     # finally:
     #   - command
