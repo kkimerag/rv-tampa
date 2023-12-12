@@ -88,11 +88,15 @@ phases:
 #     discard-paths: no | yes
 #     file-format: report-format
 artifacts:
-  type: zip
+  # type: zip
   files:
     # - my-build.zip
-    - '**/*'
+    # - '**/*'
 #     - location
+    - '**/*'
+    - '!buildspec.yml'
+    - '!storage/**/*.php'  # Exclude cached files in storage directory
+    - '!bootstrap/cache/**/*'
   name: $(date +%Y-%m-%dT%H:%M:%S).zip
 #   discard-paths: no | yes
 #   base-directory: location
