@@ -75,7 +75,9 @@ phases:
     on-failure: ABORT | CONTINUE
     commands:
       # - cd /var/app/current
-      - cd $EB_CONFIG_APP_CURRENT
+      - pwd
+      - ls -al
+      - cd /var/app/current
       - php artisan config:cache
       - php artisan cache:clear
       - php artisan optimize
