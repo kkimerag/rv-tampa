@@ -94,7 +94,7 @@ artifacts:
     # - '**/*'
 #     - location
     - '**/*'
-    # - 'buildspec.yml'
+    - 'buildspec.yml'
     - '!storage/**/*.php'  # Exclude cached files in storage directory
     - '!bootstrap/cache/**/*'
      discard-paths: yes
