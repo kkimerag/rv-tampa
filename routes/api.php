@@ -43,4 +43,5 @@ Route::prefix('vessels')->group(function () {
 Route::prefix('googlemap')->group(function () {
     Route::get('/place-id', [GoogleMapAPIController::class, 'GetPlaceId'])->name('map.get.id');
     Route::get('/autocomplete', [GoogleMapAPIController::class, 'autocomplete'])->name('map.get.prediction');
+    Route::get('/get-distance-to-home', [GoogleMapAPIController::class, 'getDistance'])->name('map.get.distance');
 });

@@ -54,7 +54,16 @@ import { Head } from '@inertiajs/vue3';
                                 Tell the owner about your trip
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
-                                Some content
+                                <v-row>
+                                    <v-col>
+                                        <DeliveryDataComponent
+                                        :expanded_panel='expandedPanel'
+                                        :vessel_data = 'vessel'
+                                        >
+                                            
+                                        </DeliveryDataComponent>
+                                    </v-col>
+                                </v-row>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <v-expansion-panel>
@@ -85,7 +94,8 @@ import { Head } from '@inertiajs/vue3';
 </template>
 
 <script>
-import UserDataComponent from './sub_components/UserDataComponent.vue';
+import UserDataComponent     from './sub_components/UserDataComponent.vue';
+import DeliveryDataComponent from './sub_components/DeliveryDataComponent.vue';
 export default {
     props: {
         vessel_id: String
