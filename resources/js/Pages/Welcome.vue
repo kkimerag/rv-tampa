@@ -17,12 +17,17 @@ defineProps({
         type: String,
         required: true,
     },
+    appURL:{
+        type: String,
+    },
+    environment:{
+        type: String,
+    }
 });
 </script>
 
 <template>
     <Head title="Welcome" />
-
     <v-row>
         <v-col>
             <v-sheet color="blue-lighten-5" class="py-4 px-4 h-20 d-flex justify-start">
@@ -192,6 +197,7 @@ defineProps({
                         <v-btn
                         color="light-blue-darken-4"
                         size="large"
+                        :href="externalUrl"
                         >
                             BOOK IT
                         </v-btn>
@@ -584,6 +590,7 @@ defineProps({
 
 <script type="text/javascript">
     export default {
+
         data () {
           return {
             features:[
@@ -612,7 +619,16 @@ defineProps({
                     icon: "mdi-checkbox-marked-circle-auto-outline"
                 }
             ],
+            baseUrl: null,
+            externalUrl: null,
           }
+        },
+        mounted(){
+            this.baselUrl = this.environment=='local' ? this.appURL+':8000' : this.appURL;
+            this.externalUrl = this.baselUrl + '/public/vessels';
+        },
+        methods:{
+        
         },
     };
 </script>
