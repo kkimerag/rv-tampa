@@ -37,7 +37,7 @@ import { Head } from '@inertiajs/vue3';
                 <v-row>
                     <v-col cols='12' md='8'>
                         <v-expansion-panels v-model='expandedPanel' variant="popout" class="my-4">
-                            <v-expansion-panel :value="1">
+                            <v-expansion-panel :value="1" disabled>
                                 <v-expansion-panel-title>
                                 Begin your booking
                                 </v-expansion-panel-title>
@@ -49,7 +49,7 @@ import { Head } from '@inertiajs/vue3';
                                     </UserDataComponent>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
-                            <v-expansion-panel :value="2">
+                            <v-expansion-panel :value="2" disabled>
                                 <v-expansion-panel-title>
                                 Tell the owner about your trip
                                 </v-expansion-panel-title>
@@ -66,7 +66,7 @@ import { Head } from '@inertiajs/vue3';
                                 </v-row>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
-                            <v-expansion-panel>
+                            <v-expansion-panel :value="3" disabled>
                                 <v-expansion-panel-title>
                                 Choose security deposit option
                                 </v-expansion-panel-title>
@@ -74,7 +74,7 @@ import { Head } from '@inertiajs/vue3';
                                 Some content
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
-                            <v-expansion-panel>
+                            <v-expansion-panel :value="4" disabled>
                                 <v-expansion-panel-title>
                                 Choose security deposit option
                                 </v-expansion-panel-title>
@@ -84,7 +84,13 @@ import { Head } from '@inertiajs/vue3';
                             </v-expansion-panel>
                         </v-expansion-panels>
                     </v-col>
-                    <v-col cols='4' class='d-none d-md-inline'>Reservationdata</v-col>
+                    <v-col cols='4' class='d-none d-md-inline'>
+                        <BookingDataComponent
+                        :vessel_data = 'vessel'
+                        >
+                            
+                        </BookingDataComponent>
+                    </v-col>
                 </v-row>
 
             </v-col>
@@ -96,6 +102,7 @@ import { Head } from '@inertiajs/vue3';
 <script>
 import UserDataComponent     from './sub_components/UserDataComponent.vue';
 import DeliveryDataComponent from './sub_components/DeliveryDataComponent.vue';
+import BookingDataComponent from './sub_components/BookingDataComponent.vue';
 export default {
     props: {
         vessel_id: String
@@ -110,7 +117,7 @@ export default {
   
   mounted() {
     this.getVessel();
-    this.expandedPanel = [1];
+    this.expandedPanel[0] = 1;
     this.userData = [
      name     => null,
      lastName => null,
@@ -134,8 +141,8 @@ export default {
         })
         .then(response => {
             this.vessel = response.data;
+            console.log(this.vessel);
             this.loading = false;
-            console.log(response.data);
         })
         .catch();
     },
