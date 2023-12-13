@@ -624,8 +624,9 @@ defineProps({
           }
         },
         mounted(){
-            this.baselUrl = this.environment=='local' ? this.appURL+':8000' : this.appURL;
-            this.externalUrl = this.baselUrl + '/public/vessels';
+            // this.baselUrl = this.environment=='local' ? this.appURL+':8000' : this.appURL;
+            // this.externalUrl = this.baselUrl + '/public/vessels';
+            this.externalUrl = '/public/vessels';
         },
         methods:{
         

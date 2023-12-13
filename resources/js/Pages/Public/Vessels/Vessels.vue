@@ -18,7 +18,11 @@ import { Head } from '@inertiajs/vue3';
                         <v-col cols='12' md='9'>
                             <v-row>
                                 <v-col v-for = 'vessel,index in vessels' cols='12' sm='6' md='4'>
-                                    <v-card>
+                                    <v-card
+                                    hover
+                                    :href="buildURLForVessel(vessel.img_folder)"
+                                    target="_blank"
+                                    >
                                         <v-window v-if = "vessel.vessel_images.length > 0"
                                             show-arrows="hover"
                                           >
@@ -167,6 +171,9 @@ export default {
             // this.selectedItem = Array(response.data.length).fill(0);
         })
         .catch();
+    },
+    buildURLForVessel(id){
+        return "/public/vessels/details/"+id;
     },
     prev(vesselIndex){
         // this.selectedItem[vesselIndex]--;
