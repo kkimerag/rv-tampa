@@ -39,6 +39,9 @@ import { Head } from '@inertiajs/vue3';
                         <v-expansion-panels v-model='expandedPanel' variant="popout" class="my-4">
                             <v-expansion-panel :value="1" >
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
+                                    <v-icon v-if="userData.length>0 && expandedPanel>1">mdi-check-circle-outline</v-icon>
+                                    <v-icon v-else>mdi-numeric-1-circle-outline</v-icon>
+
                                 Begin your booking
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
@@ -46,12 +49,15 @@ import { Head } from '@inertiajs/vue3';
                                     :expanded_panel='expandedPanel'
                                     @updateExpandedPanel="updateExpandedPanel($event)"
                                     :user_data = 'userData'
+                                    @updateUserData="updateUserData($event)"
                                     >
                                     </UserDataComponent>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <v-expansion-panel :value="2" :disabled = "!deliveryFee">
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
+                                    <v-icon v-if="deliveryFee && expandedPanel>2">mdi-check-circle-outline</v-icon>
+                                    <v-icon v-else>mdi-numeric-2-circle-outline</v-icon>
                                 Tell the owner about your trip
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
@@ -72,12 +78,28 @@ import { Head } from '@inertiajs/vue3';
                                 </v-row>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
-                            <v-expansion-panel :value="3" disabled>
+                            <v-expansion-panel :value="3" :disabled = "!deposit">
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
+                                    <v-icon v-if="deposit && expandedPanel>3">mdi-check-circle-outline</v-icon>
+                                    <v-icon v-else>mdi-numeric-3-circle-outline</v-icon>
                                 Choose security deposit option
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
-                                Some content
+                                    <v-row>
+                                        <v-col>
+                                            <div>
+                                                <DepositDataComponent
+                                                :vessel = 'vessel'
+                                                :deposit = 'deposit'
+                                                @updateDeposit="updateDeposit($event)"
+                                                :expanded_panel='expandedPanel'
+                                                @updateExpandedPanel="updateExpandedPanel($event)"
+                                                >
+                                                    
+                                                </DepositDataComponent>
+                                            </div>
+                                        </v-col>
+                                    </v-row>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <v-expansion-panel :value="4" disabled>
@@ -96,6 +118,7 @@ import { Head } from '@inertiajs/vue3';
                         :vessel_data = 'vessel'
                         :booking_range = 'bookingRange'
                         :delivery_fee = 'deliveryFee'
+                        :deposit = 'deposit'
                         >
                             
                         </BookingDataComponent>
@@ -113,6 +136,7 @@ import { Head } from '@inertiajs/vue3';
 import UserDataComponent     from './sub_components/UserDataComponent.vue';
 import DeliveryDataComponent from './sub_components/DeliveryDataComponent.vue';
 import BookingDataComponent from './sub_components/BookingDataComponent.vue';
+import DepositDataComponent from './sub_components/DepositDataComponent.vue';
 export default {
     props: {
         vessel_id: String
@@ -125,23 +149,21 @@ export default {
         StartDate: null,
         EndDate: null,
         bookingRange:[],
+        deposit: null,
         deliveryFee: null,
+        
     };
   },
   components: {
       DeliveryDataComponent,
       BookingDataComponent,
+      DepositDataComponent,
     },
   mounted() {
     this.getVessel();
     this.getDates();
     this.expandedPanel = 1;
-    this.userData = [
-     name     => null,
-     lastName => null,
-     email    => null,
-     phone    => null,
-    ];
+    this.userData = [];
     this.deliveryFee = 0;
   },
 
@@ -195,6 +217,12 @@ export default {
     },
     updateExpandedPanel(newExpandedPanel){
         this.expandedPanel=newExpandedPanel;
+    },
+    updateUserData(newUserData){
+        this.userData = newUserData;
+    },
+    updateDeposit(newValue){
+        this.deposit = newValue;
     },
   },
 };

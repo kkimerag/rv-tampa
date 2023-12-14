@@ -68,7 +68,7 @@
 	        expanded_panel: Number,
 	        user_data: Array,
 	    },
-	    emits: ['updateExpandedPanel'],
+	    emits: ['updateExpandedPanel' , 'updateUserData'],
 	  data() {
 	    return {
 	        agreed :false,
@@ -111,7 +111,12 @@
 
 	  methods: {
 	  	next(){
-	  		// this.expanded_panel[0] = 2;
+	  		let newUser=[];
+	  		newUser[0] = this.user_data.name;
+	  		newUser[1] = this.user_data.lastName;
+	  		newUser[2] = this.user_data.email;
+	  		newUser[3] = this.user_data.phone;
+	  		this.$emit('updateUserData', newUser);
 	  		this.$emit('updateExpandedPanel', 2);
 	  	},
 	  },

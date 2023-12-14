@@ -135,6 +135,16 @@
                     <v-row no-gutters>
                         <v-col> __________________ </v-col>
                     </v-row>
+                    <v-row no-gutters>
+                        <v-col> due dates</v-col>
+                    </v-row>
+                    <v-row no-gutters>
+                        <v-col> __________________ </v-col>
+                    </v-row>
+                    <v-row no-gutters v-if="delivery_fee!=0">
+                        <v-col> Deposit </v-col>
+                        <v-col>${{deposit}}</v-col>
+                    </v-row>
                 </v-card-text>
             </v-card>
     </v-col>
@@ -147,6 +157,7 @@ export default {
         vessel_data: Object,
         booking_range:Array,
         delivery_fee: Number,
+        deposit: Number,
     },
   data() {
     return {
