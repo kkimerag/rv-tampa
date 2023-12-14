@@ -142,7 +142,7 @@
                         <v-col> __________________ </v-col>
                     </v-row>
                     <v-row no-gutters v-if="delivery_fee!=0">
-                        <v-col> Deposit </v-col>
+                        <v-col> Security Deposit </v-col>
                         <v-col>${{deposit}}</v-col>
                     </v-row>
                 </v-card-text>
