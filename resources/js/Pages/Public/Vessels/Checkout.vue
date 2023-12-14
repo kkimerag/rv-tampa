@@ -38,7 +38,7 @@ import { Head } from '@inertiajs/vue3';
                     <v-col cols='12' md='8'>
                         <v-expansion-panels v-model='expandedPanel' variant="popout" class="my-4">
                             <v-expansion-panel :value="1" >
-                                <v-expansion-panel-title>
+                                <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
                                 Begin your booking
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
@@ -51,7 +51,7 @@ import { Head } from '@inertiajs/vue3';
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <v-expansion-panel :value="2" :disabled = "!deliveryFee">
-                                <v-expansion-panel-title>
+                                <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
                                 Tell the owner about your trip
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
@@ -73,7 +73,7 @@ import { Head } from '@inertiajs/vue3';
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <v-expansion-panel :value="3" disabled>
-                                <v-expansion-panel-title>
+                                <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
                                 Choose security deposit option
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
@@ -81,7 +81,7 @@ import { Head } from '@inertiajs/vue3';
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                             <v-expansion-panel :value="4" disabled>
-                                <v-expansion-panel-title>
+                                <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
                                 Choose security deposit option
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
