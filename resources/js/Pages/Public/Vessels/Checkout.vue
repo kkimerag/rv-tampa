@@ -14,7 +14,6 @@ import { Head } from '@inertiajs/vue3';
        
 
         <v-row justify='center'>
-             {{delivery_fee}}
             <v-col cols='10'>
                 <v-row>
                     <v-col> Back</v-col>
@@ -57,14 +56,16 @@ import { Head } from '@inertiajs/vue3';
                                 <v-expansion-panel-text>
                                 <v-row>
                                     <v-col>
+                                        <div>
                                         <DeliveryDataComponent
                                         :expanded_panel='expandedPanel'
                                         :vessel_data = 'vessel'
                                         :delivery-fee="deliveryFee" 
-                                        @updateDeliveryFee="updateDeliveryFee" 
+                                        @updateDeliveryFee="updateDeliveryFee($event)" 
                                         >
                                             
                                         </DeliveryDataComponent>
+                                    </div>
                                     </v-col>
                                 </v-row>
                                 </v-expansion-panel-text>
@@ -88,6 +89,7 @@ import { Head } from '@inertiajs/vue3';
                         </v-expansion-panels>
                     </v-col>
                     <v-col cols='4' class='d-none d-md-inline'>
+                        <div>
                         <BookingDataComponent
                         :vessel_data = 'vessel'
                         :booking_range = 'bookingRange'
@@ -95,6 +97,7 @@ import { Head } from '@inertiajs/vue3';
                         >
                             
                         </BookingDataComponent>
+                    </div>
                     </v-col>
                 </v-row>
 

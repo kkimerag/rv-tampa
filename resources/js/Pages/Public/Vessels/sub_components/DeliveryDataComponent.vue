@@ -42,6 +42,7 @@
 <script>
 export default {
     props: {
+        emits: ['updateDeliveryFee'],
         expanded_panel: Array,
         vessel_data: Object,
         delivery_fee: Number,
@@ -59,7 +60,6 @@ export default {
         predictions: []
     };
   },
-  emits: ['updateDeliveryFee'],
   mounted() {
     this.feePerMile = 4;  //It should be dinamic
   },

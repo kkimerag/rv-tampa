@@ -2,6 +2,93 @@
     <v-row>
         <v-col>
             <v-card v-if="vessel_data">
+                <v-row>
+                    <v-col>
+                      <v-row no-gutters>
+                          <v-col cols='8'>
+                            <v-img v-if = 'vessel_data && vessel_data.vessel_images.length >= 1'
+                            :src = "vessel_data.vessel_images[0].thumbnailUrl"
+                            cover
+                            height='30vh'
+                            >
+                                <template v-slot:placeholder>
+                                  <v-row no-gutters
+                                    class="fill-height ma-0"
+                                    align="center"
+                                    justify="center"
+                                  >
+                                    <v-progress-circular
+                                      indeterminate
+                                      color="grey-lighten-5"
+                                    ></v-progress-circular>
+                                  </v-row>
+                                </template>
+                            </v-img>
+                            <v-img v-else
+                            src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+                            height='30vh'
+                            >
+                            </v-img>
+                        </v-col>
+                        <v-col cols='4'>
+                            <v-row no-gutters>
+                                <v-col cols='12'>
+                                    <v-img v-if = 'vessel_data && vessel_data.vessel_images.length >= 2'
+                                    :src = "vessel_data.vessel_images[1].thumbnailUrl"
+                                    cover
+                                    height='15vh'
+                                    >
+                                        <template v-slot:placeholder>
+                                          <v-row
+                                            class="fill-height ma-0"
+                                            align="center"
+                                            justify="center"
+                                          >
+                                            <v-progress-circular
+                                              indeterminate
+                                              color="grey-lighten-5"
+                                            ></v-progress-circular>
+                                          </v-row>
+                                        </template>
+                                    </v-img>
+                                    <v-img v-else
+                                    src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+                                    height='15vh'
+                                    >
+                                    </v-img>
+                                </v-col>
+                            </v-row>
+                            <v-row no-gutters>
+                                <v-col cols='12'>
+                                    <v-img v-if = 'vessel_data && vessel_data.vessel_images.length >= 3'
+                                    :src = "vessel_data.vessel_images[2].thumbnailUrl"
+                                    cover
+                                    height='15vh'
+                                    >
+                                        <template v-slot:placeholder>
+                                          <v-row
+                                            class="fill-height ma-0"
+                                            align="center"
+                                            justify="center"
+                                          >
+                                            <v-progress-circular
+                                              indeterminate
+                                              color="grey-lighten-5"
+                                            ></v-progress-circular>
+                                          </v-row>
+                                        </template>
+                                    </v-img>
+                                    <v-img v-else
+                                    src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+                                    height='15vh'
+                                    >
+                                    </v-img>
+                                </v-col>
+                            </v-row>
+                        </v-col>
+                     </v-row>
+                    </v-col>
+                </v-row>
                 <v-card-title>
                     {{vessel_data.year}} {{vessel_data.make}} {{vessel_data.model}}
                 </v-card-title>
