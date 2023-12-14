@@ -11,12 +11,13 @@ import { Head } from '@inertiajs/vue3';
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Our RVs</h2>
         </template>
 
-        
+       
 
         <v-row justify='center'>
+             {{delivery_fee}}
             <v-col cols='10'>
                 <v-row>
-                    <v-col> Back </v-col>
+                    <v-col> Back</v-col>
                 </v-row>
                 <v-row>
                     <v-col cols='8'>
@@ -59,6 +60,8 @@ import { Head } from '@inertiajs/vue3';
                                         <DeliveryDataComponent
                                         :expanded_panel='expandedPanel'
                                         :vessel_data = 'vessel'
+                                        :delivery-fee="deliveryFee" 
+                                        @updateDeliveryFee="updateDeliveryFee" 
                                         >
                                             
                                         </DeliveryDataComponent>
@@ -87,6 +90,8 @@ import { Head } from '@inertiajs/vue3';
                     <v-col cols='4' class='d-none d-md-inline'>
                         <BookingDataComponent
                         :vessel_data = 'vessel'
+                        :booking_range = 'bookingRange'
+                        :delivery_fee = 'deliveryFee'
                         >
                             
                         </BookingDataComponent>
@@ -112,11 +117,19 @@ export default {
         vessel:null,
         expandedPanel: [],
         userData:[],
+        StartDate: null,
+        EndDate: null,
+        bookingRange:[],
+        deliveryFee: null,
     };
   },
-  
+  components: {
+      DeliveryDataComponent,
+      BookingDataComponent,
+    },
   mounted() {
     this.getVessel();
+    this.getDates();
     this.expandedPanel[0] = 1;
     this.userData = [
      name     => null,
@@ -124,6 +137,7 @@ export default {
      email    => null,
      phone    => null,
     ];
+    this.deliveryFee = 0;
   },
 
   create(){
@@ -145,6 +159,34 @@ export default {
             this.loading = false;
         })
         .catch();
+    },
+    getDates(){
+        const currentUrl = window.location.search;
+        const urlParams = new URLSearchParams(currentUrl);
+        const StartDate = urlParams.get('StartDate');
+        const EndDate = urlParams.get('EndDate');
+
+        this.StartDate = new Date(StartDate);
+        this.EndDate = new Date(EndDate);
+        // console.log(this.StartDate);
+        // console.log(this.EndDate);
+        this.getDatesInRange();
+
+    },
+    getDatesInRange() {
+        const dates = [];
+        let currentDate = this.StartDate;
+        let endDate = this.EndDate;
+
+        while (currentDate <= endDate) {
+          dates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        this.bookingRange = dates;
+        console.log(this.bookingRange);
+    },
+    updateDeliveryFee(newDeliveryFee) {
+      this.deliveryFee = newDeliveryFee;
     },
   },
 };

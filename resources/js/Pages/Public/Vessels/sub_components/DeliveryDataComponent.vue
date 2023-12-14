@@ -43,7 +43,8 @@
 export default {
     props: {
         expanded_panel: Array,
-        vessel_data: Array,
+        vessel_data: Object,
+        delivery_fee: Number,
     },
   data() {
     return {
@@ -58,7 +59,7 @@ export default {
         predictions: []
     };
   },
-  
+  emits: ['updateDeliveryFee'],
   mounted() {
     this.feePerMile = 4;  //It should be dinamic
   },
@@ -141,6 +142,10 @@ export default {
     },
     calcDeliveryFee(){
         this.deliveryFee = this.distanceInMiles * this.feePerMile;
+        this.emitDeliveryFeeUpdate();
+    },
+    emitDeliveryFeeUpdate() {
+        this.$emit('updateDeliveryFee', this.deliveryFee);
     },
     next(){
         this.expanded_panel[0] = 2;

@@ -70,12 +70,19 @@
                     <v-row>
                         <v-col>
                           <v-row>
-                              <v-col> Owner's Fees </v-col>
+                              <v-col> Cleaning Fee </v-col>
                               <v-col>${{ownFees}}</v-col>
                           </v-row>
                         </v-col>
                     </v-row>
-                    
+                    <v-row>
+                        <v-col>
+                          <v-row>
+                              <v-col> Security Deposit (Refundable) </v-col>
+                              <v-col>${{deposit}}</v-col>
+                          </v-row>
+                        </v-col>
+                    </v-row>
                     <v-row>
                         <v-col>
                           <v-row>
@@ -139,8 +146,9 @@ export default {
       // Concatenate 'checkout' to the path and keep the existing parameters
       const checkoutUrl = `${path}/checkout${params}`;
 
+      console.log(checkoutUrl);
       // Navigate to the new URL
-      window.location.href = checkoutUrl;
+      // window.location.href = checkoutUrl;
     }
   },
 };
