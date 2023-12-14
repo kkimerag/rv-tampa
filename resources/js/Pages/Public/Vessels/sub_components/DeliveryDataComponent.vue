@@ -42,11 +42,11 @@
 <script>
 export default {
     props: {
-        expanded_panel: Array,
+        expanded_panel: Number,
         vessel_data: Object,
         delivery_fee: Number,
     },
-    emits: ['updateDeliveryFee'],
+    emits: ['updateDeliveryFee' , 'updateExpandedPanel'],
   data() {
     return {
         selectedAddress: null,
@@ -149,7 +149,8 @@ export default {
         this.$emit('updateDeliveryFee', this.deliveryFee);
     },
     next(){
-        this.expanded_panel[0] = 2;
+        // this.expanded_panel[0] = 2;
+        this.$emit('updateExpandedPanel', 3);
     },
   },
 };

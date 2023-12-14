@@ -65,9 +65,10 @@
 <script type="text/javascript">
 	export default {
 	    props: {
-	        expanded_panel: Array,
+	        expanded_panel: Number,
 	        user_data: Array,
 	    },
+	    emits: ['updateExpandedPanel'],
 	  data() {
 	    return {
 	        agreed :false,
@@ -110,7 +111,8 @@
 
 	  methods: {
 	  	next(){
-	  		this.expanded_panel[0] = 2;
+	  		// this.expanded_panel[0] = 2;
+	  		this.$emit('updateExpandedPanel', 2);
 	  	},
 	  },
 	};

@@ -37,19 +37,20 @@ import { Head } from '@inertiajs/vue3';
                 <v-row>
                     <v-col cols='12' md='8'>
                         <v-expansion-panels v-model='expandedPanel' variant="popout" class="my-4">
-                            <v-expansion-panel :value="1" disabled>
+                            <v-expansion-panel :value="1" >
                                 <v-expansion-panel-title>
                                 Begin your booking
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
                                     <UserDataComponent 
                                     :expanded_panel='expandedPanel'
+                                    @updateExpandedPanel="updateExpandedPanel($event)"
                                     :user_data = 'userData'
                                     >
                                     </UserDataComponent>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
-                            <v-expansion-panel :value="2" disabled>
+                            <v-expansion-panel :value="2" :disabled = "!deliveryFee">
                                 <v-expansion-panel-title>
                                 Tell the owner about your trip
                                 </v-expansion-panel-title>
@@ -59,6 +60,7 @@ import { Head } from '@inertiajs/vue3';
                                         <div>
                                         <DeliveryDataComponent
                                         :expanded_panel='expandedPanel'
+                                        @updateExpandedPanel="updateExpandedPanel($event)"
                                         :vessel_data = 'vessel'
                                         :delivery-fee="deliveryFee" 
                                         @updateDeliveryFee="updateDeliveryFee($event)" 
@@ -118,7 +120,7 @@ export default {
   data() {
     return {
         vessel:null,
-        expandedPanel: [],
+        expandedPanel: null,
         userData:[],
         StartDate: null,
         EndDate: null,
@@ -133,7 +135,7 @@ export default {
   mounted() {
     this.getVessel();
     this.getDates();
-    this.expandedPanel[0] = 1;
+    this.expandedPanel = 1;
     this.userData = [
      name     => null,
      lastName => null,
@@ -190,6 +192,9 @@ export default {
     },
     updateDeliveryFee(newDeliveryFee) {
       this.deliveryFee = newDeliveryFee;
+    },
+    updateExpandedPanel(newExpandedPanel){
+        this.expandedPanel=newExpandedPanel;
     },
   },
 };
