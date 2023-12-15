@@ -170,7 +170,10 @@ export default {
             console.log(this.vessels[0]);
             // this.selectedItem = Array(response.data.length).fill(0);
         })
-        .catch();
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
     },
     buildURLForVessel(id){
         return "/public/vessels/details/"+id;
