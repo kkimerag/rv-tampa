@@ -13,7 +13,9 @@ class VesselController extends Controller
     public function getVessels(){
         $vessels = Vessel::with('type')->with('location.state')->with('rate')->with('vesselImages')->get();
         foreach($vessels as $vessel){
-            $this->attachTempURL($vessel);
+            if(count($vessel->vesselImages) > 0 ){
+                $this->attachTempURL($vessel);
+            }
         } 
         return response()->json($vessels);
     }
