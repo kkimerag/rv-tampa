@@ -164,7 +164,7 @@ export default {
   methods: {
     fetchVessels(){
         axios
-        .get('/api/vessels/')
+        .get('/api/vessels')
         .then(response => {
             this.vessels = response.data;
             console.log(this.vessels[0]);
