@@ -7,7 +7,9 @@ import { Link } from '@inertiajs/vue3';
 
 <v-row>
     <v-col>
+        <v-app>
         <slot />
+        </v-app>
     </v-col>
 </v-row>
 </template>

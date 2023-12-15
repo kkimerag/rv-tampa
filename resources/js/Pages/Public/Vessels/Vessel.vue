@@ -12,7 +12,7 @@ import { Head } from '@inertiajs/vue3';
         </template>
 
         <v-row>
-            <v-col class='d-flex justify-center m-4'>
+            <v-col class='d-flex justify-center m-4 '>
                 <v-sheet  width='80vw'>
                     <v-row>
                         <v-col cols='12'>
@@ -100,33 +100,6 @@ import { Head } from '@inertiajs/vue3';
                                             </v-col>
                                         </v-row>
                                     </v-col>
-                                    <!-- <v-col cols='3'>
-                                        <v-row>
-                                            <v-col cols='12'>
-                                                <v-img v-if = 'vessel && vessel.vessel_images.length >= 4'
-                                                :src = "vessel.vessel_images[3].thumbnailUrl"
-                                                cover
-                                                >
-                                                    <template v-slot:placeholder>
-                                                      <v-row
-                                                        class="fill-height ma-0"
-                                                        align="center"
-                                                        justify="center"
-                                                      >
-                                                        <v-progress-circular
-                                                          indeterminate
-                                                          color="grey-lighten-5"
-                                                        ></v-progress-circular>
-                                                      </v-row>
-                                                    </template>
-                                                </v-img>
-                                                <v-img v-else
-                                                src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
-                                                >
-                                                </v-img>
-                                            </v-col>
-                                        </v-row>
-                                    </v-col> -->
                                  </v-row>
                                 </v-col>
                             </v-row>
@@ -141,7 +114,7 @@ import { Head } from '@inertiajs/vue3';
                                     </v-progress-linear>
                                     <v-row>
                                         <!-- INFORMATION SECTION -->
-                                        <v-col cols='8'>
+                                        <v-col cols='12' md="8">
                                             <v-card
                                             flat
                                             >
@@ -211,7 +184,7 @@ import { Head } from '@inertiajs/vue3';
                                         </v-col>
 
                                         <!-- RESERVATION SECTION -->
-                                        <v-col cols='4'>
+                                        <v-col cols='4' class="d-none d-sm-none d-md-flex">
                                             <ReservationComponent
                                             :vessel_price = 'vessel.rate.base_nightly_price'
                                             :deposit = 'vessel.rate.deposit'
@@ -223,11 +196,83 @@ import { Head } from '@inertiajs/vue3';
                                     </v-row>
                                 </v-col>
                             </v-row>
-                            
                         </v-col>
                     </v-row>
                 </v-sheet>
 
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12" class="d-md-none">
+                <v-footer app>
+                    <v-row>
+                        <v-col>
+                            
+                            <v-row>
+                                <v-col>
+                                    <v-row>
+                                        <v-col v-if="vessel">
+                                            {{vessel.rate.base_nightly_price}}/night
+                                        </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        <v-col>
+                                            <v-btn flat @click="dialog=true">
+                                            Get price details
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-col>
+                                <v-col>
+                                    <v-btn 
+                                    color="light-blue-darken-4" 
+                                    block
+                                    :disabled = "bookingRange.length > 1 ? false : true"
+                                    @click="navigateToCheckout()"
+                                    >
+                                        Request to Book
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                            <v-dialog
+                                  v-model="dialog"
+                                  fullscreen
+                                  :scrim="false"
+                                  transition="dialog-bottom-transition"
+                                >
+                                <v-card>
+                                    <v-toolbar
+                                      dark
+                                      color="primary"
+                                    >
+                                      
+                                      <v-toolbar-title>Settings</v-toolbar-title>
+                                      <v-spacer></v-spacer>
+                                      <v-toolbar-items>
+                                       <v-btn
+                                         icon
+                                         dark
+                                         @click="dialog = false"
+                                       >
+                                         <v-icon>mdi-close</v-icon>
+                                       </v-btn>
+                                      </v-toolbar-items>
+                                    </v-toolbar>
+                                    <v-card-text>
+                                        <ReservationComponent
+                                        :vessel_price = 'vessel.rate.base_nightly_price'
+                                        :deposit = 'vessel.rate.deposit'
+                                        :booking_dates='date'
+                                        :booking_days = 'bookingRange'
+                                        >
+                                        </ReservationComponent>
+                                    </v-card-text>
+                                </v-card>
+                            </v-dialog>
+                        </v-col>
+                    </v-row>
+                    
+                </v-footer>
             </v-col>
         </v-row>
         
@@ -247,7 +292,8 @@ export default {
         loading:true,
         allowedDates: [],
         bookingRange:[],
-        calendarElements:[]
+        calendarElements:[],
+        dialog:false,
     };
   },
   
@@ -275,6 +321,24 @@ export default {
             // console.log(response.data);
         })
         .catch();
+    },
+    navigateToCheckout() {
+      // Get the current URL
+      const currentUrl = window.location.href;
+
+      // Parse the current URL
+      const url = new URL(currentUrl);
+
+      // Extract path and query parameters
+      const path = url.pathname;
+      const params = url.search;
+
+      // Concatenate 'checkout' to the path and keep the existing parameters
+      const checkoutUrl = `${path}/checkout${params}`;
+
+      console.log(checkoutUrl);
+      // Navigate to the new URL
+      window.location.href = checkoutUrl;
     },
     setRage(){
         const daysSelected = this.date.length;
