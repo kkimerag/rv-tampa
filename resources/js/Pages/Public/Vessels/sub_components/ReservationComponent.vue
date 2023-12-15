@@ -148,7 +148,7 @@ export default {
 
       console.log(checkoutUrl);
       // Navigate to the new URL
-      // window.location.href = checkoutUrl;
+      window.location.href = checkoutUrl;
     }
   },
 };

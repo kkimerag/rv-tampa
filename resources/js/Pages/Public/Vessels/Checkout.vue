@@ -11,31 +11,18 @@ import { Head } from '@inertiajs/vue3';
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Our RVs</h2>
         </template>
 
-       
-
         <v-row justify='center'>
             <v-col cols='10'>
                 <v-row>
                     <v-col> Back</v-col>
                 </v-row>
                 <v-row>
-                    <v-col cols='8'>
+                    <v-col cols='12' md='8'>
                         <v-sheet color='blue-lighten-5' class='px-2 py-2'> 
                             <v-icon>mdi-shield-star-outline</v-icon>
                             <span class="font-semibold">Worry-Free Rental Guarantee </span>
                             <span class="text-xs">Book safely and securely and rent worry-free. </span>
                         </v-sheet>
-                    </v-col>
-                    <v-col cols='4'>
-                        <v-sheet class='px-2 py-2'>
-                        <v-icon>mdi-phone-in-talk-outline</v-icon>
-                        <span class="text-xs mx-2">For Booking Assistance, call 24/7</span>
-                        <span class="font-semibold text-xs">(813) 365-1418</span>
-                    </v-sheet>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols='12' md='8'>
                         <v-expansion-panels v-model='expandedPanel' variant="popout" class="my-4">
                             <v-expansion-panel :value="1" >
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
@@ -122,9 +109,73 @@ import { Head } from '@inertiajs/vue3';
                         >
                             
                         </BookingDataComponent>
-                    </div>
+                        </div>
                     </v-col>
                 </v-row>
+                <v-row>
+                    <v-col cols="12" class="d-md-none">
+                        <v-footer app>
+                            <v-row>
+                                <v-col>
+                                    
+                                    <v-row>
+                                        <v-col>
+                                            <v-row>
+                                                <v-col v-if="vessel">
+                                                    {{vessel.rate.base_nightly_price}}/night
+                                                </v-col>
+                                                <v-col>
+                                                    <v-btn flat @click="dialog=true">
+                                                    Get details
+                                                    </v-btn>
+                                                </v-col>
+                                            </v-row>
+                                        </v-col>
+                                    </v-row>
+                                    <v-dialog
+                                          v-model="dialog"
+                                          fullscreen
+                                          :scrim="false"
+                                          transition="dialog-bottom-transition"
+                                        >
+                                        <v-card>
+                                            <v-toolbar
+                                              dark
+                                              color="primary"
+                                            >
+                                              
+                                              <v-toolbar-title>Settings</v-toolbar-title>
+                                              <v-spacer></v-spacer>
+                                              <v-toolbar-items>
+                                               <v-btn
+                                                 icon
+                                                 dark
+                                                 @click="dialog = false"
+                                               >
+                                                 <v-icon>mdi-close</v-icon>
+                                               </v-btn>
+                                              </v-toolbar-items>
+                                            </v-toolbar>
+                                            <v-card-text>
+                                                    <div>
+                                                    <BookingDataComponent
+                                                    :vessel_data = 'vessel'
+                                                    :booking_range = 'bookingRange'
+                                                    :delivery_fee = 'deliveryFee'
+                                                    :deposit = 'deposit'
+                                                    >
+                                                        
+                                                    </BookingDataComponent>
+                                                </div>
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-dialog>
+                                </v-col>
+                            </v-row>
+                            
+                        </v-footer>
+                    </v-col>
+                </v-row> 
 
             </v-col>
         </v-row>
@@ -151,7 +202,7 @@ export default {
         bookingRange:[],
         deposit: null,
         deliveryFee: null,
-        
+        dialog:false,
     };
   },
   components: {

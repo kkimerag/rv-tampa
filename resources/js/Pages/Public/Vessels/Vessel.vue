@@ -274,8 +274,7 @@ import { Head } from '@inertiajs/vue3';
                     
                 </v-footer>
             </v-col>
-        </v-row>
-        
+        </v-row>        
     </GuestLayout>
 </template>
 

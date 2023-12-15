@@ -1,6 +1,15 @@
 <template>
     <v-row>
         <v-col>
+            <v-sheet class='px-2 py-2'>
+            <v-icon>mdi-phone-in-talk-outline</v-icon>
+            <span class="text-xs mx-2">For Booking Assistance, call 24/7</span>
+            <span class="font-semibold text-xs">(813) 365-1418</span>
+            </v-sheet>
+        </v-col>
+    </v-row>
+    <v-row>
+        <v-col>
             <v-card v-if="vessel_data">
                 <v-row>
                     <v-col>
