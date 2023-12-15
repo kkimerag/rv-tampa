@@ -95,6 +95,8 @@ class BucketController extends Controller
 
         $presignedUrl = $s3Client->createPresignedRequest($command, $expiration)->getUri()->__toString();
 
+        Log::Info($presignedUrl);
+
         return $presignedUrl;
     }
 
