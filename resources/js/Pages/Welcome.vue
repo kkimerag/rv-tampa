@@ -511,8 +511,8 @@ defineProps({
                             <v-col>
                                 <v-img
                                 cover
-                                height="10vh"
-                                width="20vw"
+                                height="14vh"
+                                
                                 src="https://lh3.googleusercontent.com/LPhaUWjjk_V-6vHWgfE0QKLak_4ionnc0IabkYXjETeI3vH1IAtmYWX10f1L1Gxo6EmRa4KA9Q69lmeFFWRFWJLTkoXmlvN3Z4yXdVYUPlwRjhLGQSRGuGLEd1349Ja-pg=w1280"
                                 >
                                 </v-img>
@@ -522,8 +522,8 @@ defineProps({
                             <v-col>
                                 <v-img
                                 cover
-                                height="10vh"
-                                width="20vw"
+                                height="14vh"
+                                
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTghTJuUnqnBe8pzPGVwSDLzIjfpI4gG2uZEQyMxys6itZZ7I_999kSn63IHnSB7tl9Sg&usqp=CAU"
                                 >
                                 </v-img>
@@ -533,8 +533,8 @@ defineProps({
                             <v-col>
                                 <v-img
                                 cover
-                                height="10vh"
-                                width="20vw"
+                                height="14vh"
+                                
                                 src="https://play-lh.googleusercontent.com/LaXhWJTcUuwY6mAK-bqS9pjliwt5AYJ0n3cniipWzUd733Oio3PGNjaPH9Bm75Y3Sos"
                                 >
                                 </v-img>
@@ -544,8 +544,8 @@ defineProps({
                             <v-col>
                                 <v-img
                                 cover
-                                height="10vh"
-                                width="20vw"
+                                height="14vh"
+                               
                                 src="https://media.licdn.com/dms/image/C560BAQGyIwfrIgVTTw/company-logo_200_200/0/1630635227216/rvngo_logo?e=2147483647&v=beta&t=2rygO010wMl5ANZ5Chc_Zv8SEFlofbxN-RxKN3Qtjl4"
                                 >
                                 </v-img>
@@ -570,8 +570,9 @@ defineProps({
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col>
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14090.856310626541!2d-82.31262855202732!3d28.002642873718834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88c2c90f442b6e6b%3A0x895b760105eade38!2srv%20tampa!5e0!3m2!1sen!2sus!4v1701956827534!5m2!1sen!2sus" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <v-col cols='12'>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14090.856310626541!2d-82.31262855202732!3d28.002642873718834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88c2c90f442b6e6b%3A0x895b760105eade38!2srv%20tampa!5e0!3m2!1sen!2sus!4v1701956827534!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
                             </v-col>
                         </v-row>
                     </v-col>
