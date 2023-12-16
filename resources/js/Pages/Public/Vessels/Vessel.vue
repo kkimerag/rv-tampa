@@ -12,7 +12,7 @@ import { Head } from '@inertiajs/vue3';
         </template>
 
         <v-row>
-            <v-col class='d-flex justify-center m-4 '>
+            <v-col class='d-flex justify-center m-4 mb-36'>
                 <v-sheet  width='100vw'>
                     <v-row>
                         <v-col cols='12'>
