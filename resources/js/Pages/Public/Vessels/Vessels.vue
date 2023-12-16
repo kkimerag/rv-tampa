@@ -15,7 +15,7 @@ import { Head } from '@inertiajs/vue3';
             <v-col class = 'm-4' >
                 <v-sheet>
                     <v-row>
-                        <v-col cols='12' md='9'>
+                        <v-col cols='12' md='8'>
                             <v-row>
                                 <v-col v-for = 'vessel,index in vessels' cols='12' sm='6' md='4'>
                                     <v-card
@@ -102,8 +102,14 @@ import { Head } from '@inertiajs/vue3';
                                 </v-col>
                             </v-row>
                         </v-col>
-                        <v-col cols='3' class = "d-none d-sm-none d-md-flex">
-                            as
+                        <v-col cols='4' class = "d-none d-sm-none d-md-flex">
+                            <v-img 
+                            cover
+                            src='/images/map.png'
+                            height='100vh'
+                            >
+                                
+                            </v-img>
                         </v-col>
                     </v-row>
                 </v-sheet>
