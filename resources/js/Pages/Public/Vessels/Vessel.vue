@@ -13,7 +13,7 @@ import { Head } from '@inertiajs/vue3';
 
         <v-row>
             <v-col class='d-flex justify-center m-4 '>
-                <v-sheet  width='80vw'>
+                <v-sheet  width='100vw'>
                     <v-row>
                         <v-col cols='12'>
                             <v-row>
@@ -169,6 +169,7 @@ import { Head } from '@inertiajs/vue3';
                                                             <v-date-picker
                                                             v-model='date'
                                                             color="light-blue-darken-4"
+
                                                             ref = 'calendar'
                                                             hide-header
                                                             :allowed-dates='allowedDates'
