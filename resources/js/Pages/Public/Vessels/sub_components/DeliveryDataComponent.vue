@@ -1,7 +1,7 @@
 <template>
         <v-row>
             <v-col>
-                Enter a custom delivery location 
+                Enter a custom delivery location
             </v-col>
         </v-row>  
         <v-row>
@@ -58,7 +58,7 @@ export default {
         distanceInMiles: null,
         feePerMile: null,
         deliveryFee:null,   //It should come from props so it ipdates the parent var
-        predictions: []
+        predictions: [],
     };
   },
   
@@ -72,21 +72,31 @@ export default {
 
   methods: {
     onAddressInput(event){
+        let cursorPosition = this.getCursorPosition();
         if(event.data !=null ){
-            this.inputAddress = this.inputAddress==null ? event.data : this.inputAddress + event.data;
+            const newLetter = event.data.slice(-1);
+            if(this.inputAddress==null){
+                this.inputAddress = newLetter;
+            }else{
+                this.inputAddress = this.inputAddress.slice(0, cursorPosition-1) + newLetter + this.inputAddress.slice(cursorPosition-1);
+            }
         }else if (event.inputType === 'deleteContentBackward') {
-            const cursorPosition = this.getCursorPosition();
 
-            // if (cursorPosition > 0) {
-                this.inputAddress = this.inputAddress.slice(0, cursorPosition) + this.inputAddress.slice(cursorPosition + 1);
-            // }else{
-            //     this.inputAddress='';
-            // }
+            const stringLentgth = this.inputAddress.length-1;
+            const leftSubStr = this.inputAddress.slice(0, cursorPosition);
+            const rightSubStr= this.inputAddress.slice(cursorPosition + 1);
+
+            
+
+            if( stringLentgth !== cursorPosition ){
+                this.inputAddress = leftSubStr + rightSubStr;
+            }else{
+                this.inputAddress = leftSubStr;
+            }
         }
 
         this.autocomplete();
-         
-        console.log(this.inputAddress);
+        
     },
     getCursorPosition() {
         // Assuming you have an input element with a ref named "myInput"
@@ -108,7 +118,6 @@ export default {
             }
         })
         .then(response=>{
-            console.log(response.data);
             this.predictions = response.data;
         })
         .catch();
