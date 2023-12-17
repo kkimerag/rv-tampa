@@ -1,6 +1,6 @@
 <template>
 	<v-row>
-		<v-col>
+		<v-col cols='12' md='6'>
 			<v-text-field 
 			v-model='user_data.name'
 			:rules="[rules.required]"
@@ -8,7 +8,7 @@
 			>
 		</v-text-field>
 		</v-col>
-		<v-col>
+		<v-col cols='12' md='6'>
 			<v-text-field 
 			v-model='user_data.lastName'
 			:rules="[rules.required]"
@@ -16,9 +16,7 @@
 			>
 		</v-text-field>
 		</v-col>
-	</v-row>
-	<v-row>
-		<v-col>
+		<v-col cols='12' md='6'>
 			<v-text-field 
 			v-model='user_data.email'
 			:rules="[rules.required , rules.email]"
@@ -26,7 +24,7 @@
 			>
 		</v-text-field>
 		</v-col>
-		<v-col>
+		<v-col cols='12' md='6'>
 			<v-text-field 
 			v-model='user_data.phone'
 			:rules="[rules.required , rules.phone ]"
@@ -37,18 +35,20 @@
 	</v-row>
 	<v-row>
 		<v-col>
-			<v-checkbox v-model='agreed'>
-			<template v-slot:label>
-			    <span>I certify that I am at least 25 years old at the time of rental and I have a valid drivers license.</span>
-			  </template>
-			</v-checkbox>
 			<v-row>
-				<v-col>
+				<v-checkbox v-model='agreed'>
+				<template v-slot:label>
+				    <span>I certify that I am at least 25 years old at the time of rental and I have a valid drivers license.</span>
+				  </template>
+				</v-checkbox>
+			</v-row>
+			<v-row>
+				<v-col cols='12' md='6'>
 					<v-sheet class='text-xs'>
 						By clicking "Agree & Continue", you are agreeing to the <a href="">RVshare Terms of Service</a>, <a href="">Insurance and Protection Terms</a>, <a href="">Privacy Policy</a>, and to receive booking-related texts. Standard messaging rates may apply
 					</v-sheet>
 				</v-col>
-				<v-col>
+				<v-col cols='12' md='6'>
 					<v-btn 
 					:disabled='!allValidation'
 					flat

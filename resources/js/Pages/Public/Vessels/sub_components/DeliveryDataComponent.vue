@@ -5,10 +5,11 @@
             </v-col>
         </v-row>  
         <v-row>
-            <v-col cols='9'>
+            <v-col cols='12' md='9'>
                 <v-autocomplete
                 v-model="selectedAddress"
                 ref="myInput"
+                bg-color="white"
                 :value="inputAddress"
                 :items="predictions"
                 item-title = "description"
@@ -19,7 +20,7 @@
                 ></v-autocomplete>
                 
             </v-col>
-            <v-col cols='3'>${{deliveryFee}}</v-col>
+            <v-col cols='12' md='3'>${{deliveryFee}}</v-col>
         </v-row>  
         <v-row>
             <v-col>

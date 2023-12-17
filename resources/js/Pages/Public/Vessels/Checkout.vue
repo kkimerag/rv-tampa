@@ -114,7 +114,11 @@ import { Head } from '@inertiajs/vue3';
                 </v-row>
                 <v-row>
                     <v-col cols="12" class="d-md-none">
-                        <v-footer app>
+                        <v-footer 
+                        app
+                        color="white"
+                        elevation="20"
+                        >
                             <v-row>
                                 <v-col>
                                     
@@ -144,7 +148,7 @@ import { Head } from '@inertiajs/vue3';
                                               color="primary"
                                             >
                                               
-                                              <v-toolbar-title>Settings</v-toolbar-title>
+                                              <v-toolbar-title>Details</v-toolbar-title>
                                               <v-spacer></v-spacer>
                                               <v-toolbar-items>
                                                <v-btn
