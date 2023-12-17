@@ -12,8 +12,8 @@ import { Head } from '@inertiajs/vue3';
         </template>
 
         <v-row>
-            <v-col class='d-flex justify-center m-4 mb-36'>
-                <v-sheet  width='100vw'>
+            <v-col class='mb-36'>
+                <v-sheet>
                     <v-row>
                         <v-col cols='12'>
                             <v-row>
@@ -205,25 +205,24 @@ import { Head } from '@inertiajs/vue3';
         </v-row>
         <v-row>
             <v-col cols="12" class="d-md-none">
-                <v-footer app>
+                <v-footer 
+                app 
+                color="white"
+                elevation="20"
+                >
                     <v-row>
-                        <v-col>
-                            
+                        <v-col>                            
                             <v-row>
-                                <v-col>
-                                    <v-row>
-                                        <v-col v-if="vessel">
-                                            {{vessel.rate.base_nightly_price}}/night
-                                        </v-col>
-                                    </v-row>
-                                    <v-row>
-                                        <v-col>
-                                            <v-btn flat @click="dialog=true">
-                                            Get price details
-                                            </v-btn>
-                                        </v-col>
-                                    </v-row>
+                                <v-col v-if="vessel">
+                                    {{vessel.rate.base_nightly_price}}/night
                                 </v-col>
+                                <v-col>
+                                    <v-btn flat @click="dialog=true">
+                                    Get price details
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                            <v-row>
                                 <v-col>
                                     <v-btn 
                                     color="light-blue-darken-4" 

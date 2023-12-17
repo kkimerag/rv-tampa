@@ -635,6 +635,9 @@ defineProps({
     };
 </script>
 <style type="text/css">
+    html,body{
+        overflow-x: hidden;
+    }
     #logo{
         width: 80px;
         height: 80px;
