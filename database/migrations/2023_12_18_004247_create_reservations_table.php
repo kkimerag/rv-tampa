@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('renter_name');
             $table->string('renter_last_name');
+            $table->string('email_address');
+            $table->string('phone_number');
             $table->date('reservation_start_date');
             $table->date('reservation_end_date');
             $table->string('delivery_address');

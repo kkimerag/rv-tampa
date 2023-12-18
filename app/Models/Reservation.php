@@ -10,8 +10,9 @@ class Reservation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'renter_name', 'renter_last_name', 'reservation_start_date', 'reservation_end_date', 'delivery_address', 'bill_id'
-    ];
+            'renter_name', 'renter_last_name', 'email_address', 'phone_number',
+            'reservation_start_date', 'reservation_end_date', 'delivery_address', 'bill_id'
+        ];
 
     public function bill()
     {
