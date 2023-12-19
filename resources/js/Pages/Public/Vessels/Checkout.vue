@@ -95,25 +95,33 @@ import { Head } from '@inertiajs/vue3';
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
                                 <ConfirmationPaymentComponent
-                                :userData='userData'
-                                :reservStart='startDateReserv'
-                                :reservEnd='endDateReserv'
-                                :deliveryAddress='deliveryAddress'
+                                :reservationId     ='reservationId'
+                                @updateReservation ="updateReservation($event)"
+                                :userData          ='userData'
+                                :vesselId          ='vessel ? vessel.id : null'
+                                :reservStart       ='startDateReserv'
+                                :reservEnd         ='endDateReserv'
+                                :deliveryAddress   ='deliveryAddress'
+                                :dueNow            = 'dueNow'
+                                :dueLater          = 'dueLater'
                                 >
                                     
                                 </ConfirmationPaymentComponent>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                         </v-expansion-panels>
-
                     </v-col>
                     <v-col cols='4' class='d-none d-md-inline'>
                         <div>
                         <BookingDataComponent
-                        :vessel_data   = 'vessel'
-                        :booking_range = 'bookingRange'
-                        :delivery_fee  = 'deliveryFee'
-                        :deposit       = 'deposit'
+                        :vessel_data         = 'vessel'
+                        :booking_range       = 'bookingRange'
+                        :delivery_fee        = 'deliveryFee'
+                        :deposit             = 'deposit'
+                        :holdPercent         = 'holdPercent'
+                        @updateTotalPrice    = 'updateTotalPrice'
+                        @updateDueNowPrice   = 'updateDueNowPrice'
+                        @updateDueLaterPrice = 'updateDueLaterPrice'
                         >
                             
                         </BookingDataComponent>
@@ -203,7 +211,8 @@ import DepositDataComponent from './sub_components/DepositDataComponent.vue';
 import ConfirmationPaymentComponent from './sub_components/ConfirmationPaymentComponent.vue';
 export default {
     props: {
-        vessel_id: String
+        vessel_id:   String,
+        holdPercent: String,
     },
   data() {
     return {
@@ -217,6 +226,7 @@ export default {
         deposit: null,
         deliveryFee: null,
         deliveryAddress:null,
+        totalPrice: null,
         dueNow: null,
         dueLater: null,
         dialog:false,
@@ -232,12 +242,13 @@ export default {
   mounted() {
     this.getVessel();
     this.getDates();
-    this.expandedPanel = 4;
+    this.expandedPanel = 1;
     this.userData = [];
     this.deliveryFee = 0;
     this.deliveryAddress='';
     this.dueNow = 0;
     this.dueLater = 0;
+    console.log(this.holdPercent);
   },
 
   create(){
@@ -306,6 +317,18 @@ export default {
     updateDeposit(newValue){
         this.deposit = newValue;
     },
+    updateReservation(newReservationId){
+        this.reservationId=newReservationId;
+    },
+    updateTotalPrice(newTotalPrice){
+        this.totalPrice=newTotalPrice;
+    },
+    updateDueNowPrice(newDueNow){
+        this.dueNow=newDueNow;
+    },
+    updateDueLaterPrice(newDueLater){
+        this.dueLater=newDueLater;
+    }
   },
 };
 </script>

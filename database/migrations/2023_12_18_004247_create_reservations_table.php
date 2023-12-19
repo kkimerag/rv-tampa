@@ -21,10 +21,12 @@ return new class extends Migration
             $table->date('reservation_end_date');
             $table->string('delivery_address');
             $table->unsignedBigInteger('bill_id')->nullable();
+            $table->unsignedBigInteger('vessel_id')->nullable();
             $table->timestamps();
 
             // Foreign key constraint
             $table->foreign('bill_id')->references('id')->on('bills')->onDelete('set null');
+            $table->foreign('vessel_id')->references('id')->on('vessels')->onDelete('set null');
         });
     }
 

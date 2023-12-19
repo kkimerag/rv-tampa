@@ -7,6 +7,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\VesselController;
 use App\Http\Controllers\GoogleMapAPIController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\BillController;
 
 
 
@@ -49,4 +50,8 @@ Route::prefix('googlemap')->group(function () {
 
 Route::prefix('reservations')->group(function () {
     Route::post('/create', [ReservationController::class, 'CreateReservation']);
+});
+
+Route::prefix('bills')->group(function () {
+    Route::post('/create-bill-for-reservation', [BillController::class, 'createBillForReservation']);
 });

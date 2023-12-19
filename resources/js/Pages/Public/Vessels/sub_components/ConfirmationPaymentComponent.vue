@@ -19,15 +19,25 @@ export default {
         reservStart:     String,
         reservEnd:       String,
         deliveryAddress: String,
+        reservationId: Number,
     },
+    emits: ['updateReservation'],
     data() {
         return {
-
+            readyToBook:false,
         };
     },
   
     mounted() {
-        this.createReservation();
+        this.checkData();
+        if( 
+            // (!this.reservationId) && 
+            (this.readyToBook) 
+            ){
+            this.createReservation();
+        }else{
+            console.log("Reservation present or missing data");
+        }
     },    
 
     create(){
@@ -35,8 +45,21 @@ export default {
     },
 
     methods: {
+        checkData(){
+            if( 
+                (this.userData.length!=0) && 
+                (this.vesselId) && 
+                (this.reservStart) && 
+                (this.reservEnd) && 
+                (this.deliveryAddress) 
+            ){
+                this.readyToBook=true;
+            }else{
+                this.readyToBook=false;
+            }
+            console.log(this.reservationId);
+        },
         createReservation(){
-            // console.log(this.reservEnd);
             axios
             .post('/api/reservations/create' , {
                 renter_name: this.userData[0],
@@ -46,11 +69,31 @@ export default {
                 reservation_start_date: this.reservStart,
                 reservation_end_date:this.reservEnd, 
                 delivery_address: this.deliveryAddress,
+                vessel_id: this.vesselId,
             })
             .then(response => {
-                console.log(response.data);  
+                // console.log(response.data.id);
+                this.emitReservation(response.data.id);
+                this.createBillForReservation(response.data.id);
+                // this.reservationId =  response.data.id;
             })
             .catch();
+        },
+        createBillForReservation(reservationID){
+            axios
+            .post('/api/bills/create-bill-for-reservation',{
+                reservationId: reservationID,
+                // price: 
+            })
+            .then(response=>{
+                console.log(response.data);
+            })
+            .catch();
+        },
+        emitReservation(newReservationId){
+            console.log("emiting...");
+            console.log(newReservationId);
+            this.$emit('updateReservation', newReservationId);
         },
     },
 };

@@ -11,7 +11,7 @@ class Reservation extends Model
 
     protected $fillable = [
             'renter_name', 'renter_last_name', 'email_address', 'phone_number',
-            'reservation_start_date', 'reservation_end_date', 'delivery_address', 'bill_id'
+            'reservation_start_date', 'reservation_end_date', 'delivery_address', 'bill_id' , 'vessel_id'
         ];
 
     public function bill()

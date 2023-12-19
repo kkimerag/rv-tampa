@@ -144,12 +144,18 @@
                     <v-row no-gutters>
                         <v-col> __________________ </v-col>
                     </v-row>
+                    <!-- <v-row no-gutters>
+                        <v-col> Due dates:</v-col>
+                    </v-row>
                     <v-row no-gutters>
-                        <v-col> due dates</v-col>
+                        <v-col> Due Today: </v-col><v-col> ${{getDueNowAmount()}}</v-col>
+                    </v-row>
+                    <v-row no-gutters>
+                        <v-col> Due At {{formatDate(booking_range[0])}}:</v-col><v-col>${{getDueLaterAmount()}}</v-col>
                     </v-row>
                     <v-row no-gutters>
                         <v-col> __________________ </v-col>
-                    </v-row>
+                    </v-row> -->
                     <v-row no-gutters v-if="delivery_fee!=0">
                         <v-col> Security Deposit </v-col>
                         <v-col>${{deposit}}</v-col>
@@ -167,9 +173,14 @@ export default {
         booking_range:Array,
         delivery_fee: Number,
         deposit: Number,
+        holdPercent: String
     },
+    emits: ['updateTotalPrice' , 'updateDueNowPrice' , 'updateDueLaterPrice'],
   data() {
     return {
+        totalPrice: null,
+        dueNow:null,
+        dueLater:null,
         ownFees:null,
     };
   },
@@ -185,7 +196,30 @@ export default {
 
   methods: {
     getTotal(){
-        return this.calculateTotalPerNight()+this.ownFees+this.delivery_fee;
+        this.totalPrice = this.calculateTotalPerNight()+this.ownFees+this.delivery_fee;
+        this.emitTotalPrice(this.totalPrice);
+        return this.totalPrice;
+    },
+    getDueNowAmount(){
+        this.dueNow = this.getHoldingPecentage();
+        this.emitDueNow(this.dueNow);
+        return this.dueNow;
+    },
+    getDueLaterAmount(){
+        this.dueLater = this.totalPrice - this.getDueNowAmount();
+        this.emitDueLater(this.dueLater);
+        return this.dueLater;
+    },
+    getHoldingPecentage(){
+        // Ensure total and percentage are valid numbers
+        if (isNaN(this.totalPrice) || isNaN(this.holdPercent)) {
+            return "Please provide valid numbers for total and percentage.";
+        }
+
+        // Calculate the given percentage of the total
+        const result = (this.holdPercent / 100) * this.totalPrice;
+
+        return result;
     },
     formatDate(date) {
         const year = date.getUTCFullYear();
@@ -197,6 +231,15 @@ export default {
         this.totalPerNight = (this.booking_range.length-1) * parseInt(this.vessel_data.rate.base_nightly_price);
         return this.totalPerNight > 0 ? this.totalPerNight : 0;
     }, 
+    emitTotalPrice(newPrice){
+        this.$emit('updateTotalPrice', newPrice);
+    },
+    emitDueNow(newDueNow){
+        this.$emit('updateDueNowPrice', newDueNow);
+    },
+    emitDueLater(newDueLater){
+        this.$emit('updateDueLaterPrice', newDueLater);
+    }
   },
 };
 </script>
