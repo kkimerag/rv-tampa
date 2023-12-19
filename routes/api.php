@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\VesselController;
 use App\Http\Controllers\GoogleMapAPIController;
+use App\Http\Controllers\ReservationController;
 
 
 
@@ -44,4 +45,8 @@ Route::prefix('googlemap')->group(function () {
     Route::get('/place-id', [GoogleMapAPIController::class, 'GetPlaceId'])->name('map.get.id');
     Route::get('/autocomplete', [GoogleMapAPIController::class, 'autocomplete'])->name('map.get.prediction');
     Route::get('/get-distance-to-home', [GoogleMapAPIController::class, 'getDistance'])->name('map.get.distance');
+});
+
+Route::prefix('reservations')->group(function () {
+    Route::post('/create', [ReservationController::class, 'CreateReservation']);
 });

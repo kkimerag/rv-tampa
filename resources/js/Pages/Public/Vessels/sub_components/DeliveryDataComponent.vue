@@ -15,6 +15,7 @@
                 item-title = "description"
                 item-value = "place_id"
                 label="Delivery Location"
+                @change="setAddress"
                 @update:modelValue="handleItemClick"
                 @input="onAddressInput($event)"
                 ></v-autocomplete>
@@ -45,9 +46,10 @@ export default {
     props: {
         expanded_panel: Number,
         vessel_data: Object,
-        delivery_fee: Number,
+        // delivFee: Number,
+        // deliveryAddress: String,
     },
-    emits: ['updateDeliveryFee' , 'updateExpandedPanel'],
+    emits: ['updateDeliveryFee' , 'updateExpandedPanel' , 'updateDeliveryAddress'],
   data() {
     return {
         selectedAddress: null,
@@ -61,6 +63,15 @@ export default {
         predictions: [],
     };
   },
+
+  computed: {
+      selectedItemAddress() {
+        // if(this.selectedAddress){
+        //     return this.predictions.find(item => item.place_id === this.selectedAddress);
+        // }
+        return this.selectedAddress ? this.predictions.find(item => item.place_id === this.selectedAddress) : false;
+      },
+    },
   
   mounted() {
     this.feePerMile = 4;  //It should be dinamic
@@ -122,6 +133,13 @@ export default {
         })
         .catch();
     },
+    setAddress(){
+        if(this.selectedItemAddress !== false){
+            this.emitDeliveryAddress(this.selectedItemAddress.description);
+        }else{
+            console.log("No esta definido");
+        }        
+    },
     handleItemClick(item) {
         this.$refs.myInput.blur();
         this.calculateDistance();
@@ -135,20 +153,21 @@ export default {
             }
         })
         .then(response => {
-            const distanceObj = response.data.rows[0].elements[0].distance;
-            this.distanceInMiles = this.convertMetersToMiles(distanceObj.value);
-            this.calcDeliveryFee();
-            console.log(this.distanceInMiles);
+            if(response.data.destination_addresses.length != 0){
+                const distanceObj = response.data.rows[0].elements[0].distance;
+                this.distanceInMiles = this.convertMetersToMiles(distanceObj.value);
+                this.calcDeliveryFee();
+                // console.log(this.selectedAddress);
+            }else{
+                console.log("empty address");
+            }
+            
         })
         .catch();
     },
     convertMetersToMiles(valueInMeters) {
-      // Conversion factor: 1 meter is approximately equal to 0.000621371 miles
       const conversionFactor = 0.000621371;
-
-      // Perform the conversion
       const valueInMiles = (valueInMeters * conversionFactor).toFixed(1);
-
       return valueInMiles;
     },
     calcDeliveryFee(){
@@ -157,6 +176,9 @@ export default {
     },
     emitDeliveryFeeUpdate() {
         this.$emit('updateDeliveryFee', this.deliveryFee);
+    },
+    emitDeliveryAddress(newAddress) {
+        this.$emit('updateDeliveryAddress', newAddress);
     },
     next(){
         // this.expanded_panel[0] = 2;

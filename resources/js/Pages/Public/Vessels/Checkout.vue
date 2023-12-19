@@ -55,8 +55,8 @@ import { Head } from '@inertiajs/vue3';
                                         :expanded_panel='expandedPanel'
                                         @updateExpandedPanel="updateExpandedPanel($event)"
                                         :vessel_data = 'vessel'
-                                        :delivery-fee="deliveryFee" 
                                         @updateDeliveryFee="updateDeliveryFee($event)" 
+                                        @updateDeliveryAddress="updateDeliveryAddress($event)"
                                         >
                                             
                                         </DeliveryDataComponent>
@@ -94,18 +94,26 @@ import { Head } from '@inertiajs/vue3';
                                 Choose security deposit option
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
-                                Confirm & Pay
+                                <ConfirmationPaymentComponent
+                                :userData='userData'
+                                :reservStart='startDateReserv'
+                                :reservEnd='endDateReserv'
+                                :deliveryAddress='deliveryAddress'
+                                >
+                                    
+                                </ConfirmationPaymentComponent>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
                         </v-expansion-panels>
+
                     </v-col>
                     <v-col cols='4' class='d-none d-md-inline'>
                         <div>
                         <BookingDataComponent
-                        :vessel_data = 'vessel'
+                        :vessel_data   = 'vessel'
                         :booking_range = 'bookingRange'
-                        :delivery_fee = 'deliveryFee'
-                        :deposit = 'deposit'
+                        :delivery_fee  = 'deliveryFee'
+                        :deposit       = 'deposit'
                         >
                             
                         </BookingDataComponent>
@@ -192,12 +200,14 @@ import UserDataComponent     from './sub_components/UserDataComponent.vue';
 import DeliveryDataComponent from './sub_components/DeliveryDataComponent.vue';
 import BookingDataComponent from './sub_components/BookingDataComponent.vue';
 import DepositDataComponent from './sub_components/DepositDataComponent.vue';
+import ConfirmationPaymentComponent from './sub_components/ConfirmationPaymentComponent.vue';
 export default {
     props: {
         vessel_id: String
     },
   data() {
     return {
+        reservationId:null,
         vessel:null,
         expandedPanel: null,
         userData:[],
@@ -206,7 +216,12 @@ export default {
         bookingRange:[],
         deposit: null,
         deliveryFee: null,
+        deliveryAddress:null,
+        dueNow: null,
+        dueLater: null,
         dialog:false,
+        startDateReserv: null,
+        endDateReserv: null,
     };
   },
   components: {
@@ -217,9 +232,12 @@ export default {
   mounted() {
     this.getVessel();
     this.getDates();
-    this.expandedPanel = 1;
+    this.expandedPanel = 4;
     this.userData = [];
     this.deliveryFee = 0;
+    this.deliveryAddress='';
+    this.dueNow = 0;
+    this.dueLater = 0;
   },
 
   create(){
@@ -237,7 +255,6 @@ export default {
         })
         .then(response => {
             this.vessel = response.data;
-            console.log(this.vessel);
             this.loading = false;
         })
         .catch();
@@ -250,10 +267,18 @@ export default {
 
         this.StartDate = new Date(StartDate);
         this.EndDate = new Date(EndDate);
-        // console.log(this.StartDate);
-        // console.log(this.EndDate);
+
+        this.startDateReserv = this.formatDate(this.StartDate);
+        this.endDateReserv   = this.formatDate(this.EndDate);
+
         this.getDatesInRange();
 
+    },
+    formatDate(date) {
+        const year = date.getUTCFullYear();
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        return `${year}/${month}/${day}`;
     },
     getDatesInRange() {
         const dates = [];
@@ -265,10 +290,12 @@ export default {
           currentDate.setDate(currentDate.getDate() + 1);
         }
         this.bookingRange = dates;
-        console.log(this.bookingRange);
     },
     updateDeliveryFee(newDeliveryFee) {
       this.deliveryFee = newDeliveryFee;
+    },
+    updateDeliveryAddress(newDeliveryAddress) {
+        this.deliveryAddress = newDeliveryAddress;
     },
     updateExpandedPanel(newExpandedPanel){
         this.expandedPanel=newExpandedPanel;

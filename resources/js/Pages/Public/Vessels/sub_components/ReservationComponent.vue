@@ -24,7 +24,7 @@
                                 class="text-subtitle-2"
                                 density="compact"
                                 readonly
-                                :model-value="booking_dates.length >=1 ? booking_dates[0] : 'Add Dates'"
+                                :model-value="booking_dates.length >=1 ? formatDate(booking_dates[0]) : 'Add Dates'"
                                 >
                                 </v-text-field>
                             </v-sheet>
@@ -41,7 +41,7 @@
                                 class="text-subtitle-2"
                                 density="compact"
                                 readonly
-                                :model-value="booking_dates.length >=2 ? booking_dates[1] : 'Add Dates'"
+                                :model-value="booking_dates.length >=2 ? formatDate(booking_dates[1]) : 'Add Dates'"
                                 >
                                 </v-text-field>
                             </v-sheet>
@@ -149,7 +149,13 @@ export default {
       console.log(checkoutUrl);
       // Navigate to the new URL
       window.location.href = checkoutUrl;
-    }
+    },
+    formatDate(date) {
+        const year = date.getUTCFullYear();
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        return `${year}/${month}/${day}`;
+    },
   },
 };
 </script>
