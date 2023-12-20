@@ -144,7 +144,7 @@
                     <v-row no-gutters>
                         <v-col> __________________ </v-col>
                     </v-row>
-                    <!-- <v-row no-gutters>
+                    <v-row no-gutters>
                         <v-col> Due dates:</v-col>
                     </v-row>
                     <v-row no-gutters>
@@ -155,7 +155,7 @@
                     </v-row>
                     <v-row no-gutters>
                         <v-col> __________________ </v-col>
-                    </v-row> -->
+                    </v-row>
                     <v-row no-gutters v-if="delivery_fee!=0">
                         <v-col> Security Deposit </v-col>
                         <v-col>${{deposit}}</v-col>

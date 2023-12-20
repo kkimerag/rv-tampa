@@ -102,6 +102,7 @@ import { Head } from '@inertiajs/vue3';
                                 :reservStart       ='startDateReserv'
                                 :reservEnd         ='endDateReserv'
                                 :deliveryAddress   ='deliveryAddress'
+                                :totalPrice        = 'totalPrice'
                                 :dueNow            = 'dueNow'
                                 :dueLater          = 'dueLater'
                                 >
@@ -242,7 +243,7 @@ export default {
   mounted() {
     this.getVessel();
     this.getDates();
-    this.expandedPanel = 1;
+    this.expandedPanel = 4;
     this.userData = [];
     this.deliveryFee = 0;
     this.deliveryAddress='';

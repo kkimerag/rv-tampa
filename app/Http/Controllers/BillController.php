@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Bill; 
 
 class BillController extends Controller
 {
@@ -11,8 +12,21 @@ class BillController extends Controller
      */
     public function createBillForReservation( Request $request)
     {
-        $bill = Bill::create($request->all());
+        // $bill = Bill::create($request->all());
 
-        return response()->json($reservation, 201);
+        // Validate the request...
+        
+        $bill = new Bill;
+        
+        $bill->price = $request->price;
+        
+        $bill->save();
+        
+
+        return response()->json($bill, 201);
+    }
+
+    public function createChargesForBill(){
+        
     }
 }

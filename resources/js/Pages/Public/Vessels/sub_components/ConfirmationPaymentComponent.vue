@@ -1,38 +1,49 @@
 <template>
-    <v-row>
+    <v-row v-if="paymentData">
         <v-col>
-            <v-sheet class='px-2 py-2'>
-            <v-icon>mdi-phone-in-talk-outline</v-icon>
-            <span class="text-xs mx-2">For Booking Assistance, call 24/7</span>
-            <span class="font-semibold text-xs">(813) 365-1418</span>
-            </v-sheet>
+            <StripePayForm
+            :paymentSecret = "paymentData.client_secret"
+            :publishableKey= "publishableKey"
+            >
+                
+            </StripePayForm>
         </v-col>
     </v-row>
-
 </template>
 
 <script>
+import StripePayForm from '@/Components/others/stripePayForm.vue';
+
 export default {
     props: {
-        userData: Array,
+        userData:        Array,
         vesselId:        Number,
         reservStart:     String,
         reservEnd:       String,
         deliveryAddress: String,
-        reservationId: Number,
+        reservationId:   Number,
+        totalPrice:      Number,
+        dueNow:          Number,
+        dueLater:        Number,
     },
     emits: ['updateReservation'],
     data() {
         return {
             readyToBook:false,
+            paymentData:null,
+            publishableKey:null,
         };
     },
-  
+    components: {
+        StripePayForm,
+      },
     mounted() {
+        this.getPublishableKey();
         this.checkData();
         if( 
             // (!this.reservationId) && 
-            (this.readyToBook) 
+            (this.readyToBook)
+            // true 
             ){
             this.createReservation();
         }else{
@@ -45,6 +56,13 @@ export default {
     },
 
     methods: {
+        getPublishableKey(){
+          axios
+          .get('/api/payments/get-publishable-key')
+          .then(response => {
+            this.publishableKey = response.data;
+          })
+        },
         checkData(){
             if( 
                 (this.userData.length!=0) && 
@@ -83,16 +101,31 @@ export default {
             axios
             .post('/api/bills/create-bill-for-reservation',{
                 reservationId: reservationID,
-                // price: 
+                price: this.totalPrice,
+                charge_now_amount: this.dueNow,
+                charge_later_amount: this.dueLater,
+                charge_later_date: this.reservEnd,
             })
             .then(response=>{
-                console.log(response.data);
+                this.paymentIntent(response.data);
             })
             .catch();
         },
+        paymentIntent(billData){
+          axios
+          .post('/api/payments/create-stripe-payment-intent',{
+            bill_id    : billData.id,
+            bill_price : billData.price,
+            account_id : this.accountId,
+            gallery_id : this.selectedGallery
+          })
+          .then(response=>{
+            this.paymentData = response.data
+            console.log(this.paymentData);
+          })
+          .catch();
+        },
         emitReservation(newReservationId){
-            console.log("emiting...");
-            console.log(newReservationId);
             this.$emit('updateReservation', newReservationId);
         },
     },

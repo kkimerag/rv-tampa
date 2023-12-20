@@ -85,6 +85,11 @@ class StripeController extends Controller
         return response()->json($account);  
     }
 
+    public function createClient(){
+        $stripeClientData = $this->stripe->customers->create([]);
+        return response()->json($stripeClientData);
+    }
+
     public function stripePaymentIntent(Request $request){
         $paymentID = $this->stripe->paymentIntents->create([
           'amount' => intval($request['bill_price']) * 100,    //Since stripe asumes the amounts in cents
@@ -93,9 +98,9 @@ class StripeController extends Controller
             'enabled' => true
             ],
         ]);
-        $bill = Bill::find($request['bill_id']);
-        $bill->payment_id = $paymentID->id;
-        $bill->save();
+        // $bill = Bill::find($request['bill_id']);
+        // $bill->payment_id = $paymentID->id;
+        // $bill->save();
         return response()->json($paymentID);
     }
 

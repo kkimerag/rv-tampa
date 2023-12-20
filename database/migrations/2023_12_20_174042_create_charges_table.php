@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bills', function (Blueprint $table) {
+        Schema::create('charges', function (Blueprint $table) {
             $table->id();
-            $table->decimal('price', 10, 2);
+            $table->decimal('amount', 10, 2);
             $table->boolean('is_paid')->default(false); 
+            $table->string('customer_id');
+            $table->string('payment_id');
+            $table->unsignedBigInteger('bill_id')->nullable();
             $table->timestamps();
+
+            // Foreign key constraint
+            $table->foreign('bill_id')->references('id')->on('bills')->onDelete('set null');
         });
     }
 
@@ -24,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bills');
+        Schema::dropIfExists('charges');
     }
 };
