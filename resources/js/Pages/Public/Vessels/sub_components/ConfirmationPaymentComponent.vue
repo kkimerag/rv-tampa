@@ -9,6 +9,14 @@
             </StripePayForm>
         </v-col>
     </v-row>
+    <v-row v-else>
+        <v-col>
+            <v-progress-linear
+                indeterminate
+                color="teal"
+            ></v-progress-linear>
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -104,12 +112,13 @@ export default {
                 price: this.totalPrice,
                 charge_now_amount: this.dueNow,
                 charge_later_amount: this.dueLater,
+                charge_now_date: this.reservStart,
                 charge_later_date: this.reservEnd,
             })
             .then(response=>{
-                // this.paymentIntent(response.data); 
-                console.log(response.data); 
-                this.paymentData = response.data; 
+                // this.paymentIntent(response.data);
+                console.log(response.data);
+                this.paymentData = response.data;
             })
             .catch();
         },

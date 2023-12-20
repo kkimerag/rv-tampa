@@ -113,6 +113,29 @@ class StripeController extends Controller
         return response()->json($paymentID);
     }
 
+    public function stripeSavedPaymentIntentOnCustomer(Request $request){
+        $paymentMethod = $this->getPaymentMethodFOrCustumer();
+        // $paymentID = $this->stripe->paymentIntents->create([
+        //     'customer' => $request['customer_id'],
+        //     'setup_future_usage' => 'off_session',
+        //     'amount' => intval($request['bill_price']) * 100,    //Since stripe asumes the amounts in cents
+        //     'currency' => 'usd',
+        //     'automatic_payment_methods' => [
+        //        'enabled' => true
+        //     ],
+        // ]);
+        return response()->json($paymentID);
+    }
+
+    private function getPaymentMethodFOrCustumer($customerId){
+        $paymentMethod = $stripe->paymentMethods->all([
+          'customer' => $customerId,
+          'type' => 'card',
+        ]);
+
+        return $paymentMethod;
+    }
+
     public function isPaymentConfirm($payment_ID){
         $resul = false;
         $paymentintent = $this->getPaymentIntent($payment_ID);

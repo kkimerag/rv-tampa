@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->decimal('amount', 10, 2);
             $table->boolean('is_paid')->default(false); 
-            $table->string('customer_id');
-            $table->string('payment_id');
+            $table->string('payment_id')->nullable();
+            $table->timestamp('due_date');
             $table->unsignedBigInteger('bill_id')->nullable();
             $table->timestamps();
 

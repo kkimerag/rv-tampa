@@ -243,7 +243,7 @@ export default {
   mounted() {
     this.getVessel();
     this.getDates();
-    this.expandedPanel = 4;
+    this.expandedPanel = 1;
     this.userData = [];
     this.deliveryFee = 0;
     this.deliveryAddress='';
