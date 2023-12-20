@@ -16,6 +16,6 @@ class Reservation extends Model
 
     public function bill()
     {
-        return $this->belongsTo(Bill::class);
+        return $this->hasOne(Bill::class);
     }
 }
