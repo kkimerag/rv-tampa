@@ -90,7 +90,7 @@ export default {
                 vessel_id: this.vesselId,
             })
             .then(response => {
-                // console.log(response.data.id);
+                // console.log(response.data);
                 this.emitReservation(response.data.id);
                 this.createBillForReservation(response.data.id);
                 // this.reservationId =  response.data.id;
@@ -100,18 +100,20 @@ export default {
         createBillForReservation(reservationID){
             axios
             .post('/api/bills/create-bill-for-reservation',{
-                reservationId: reservationID,
+                reservation_id: reservationID,
                 price: this.totalPrice,
                 charge_now_amount: this.dueNow,
                 charge_later_amount: this.dueLater,
                 charge_later_date: this.reservEnd,
             })
             .then(response=>{
-                this.paymentIntent(response.data);
+                // this.paymentIntent(response.data); 
+                console.log(response.data); 
+                this.paymentData = response.data; 
             })
             .catch();
         },
-        paymentIntent(billData){
+        /*paymentIntent(billData){
           axios
           .post('/api/payments/create-stripe-payment-intent',{
             bill_id    : billData.id,
@@ -124,7 +126,7 @@ export default {
             console.log(this.paymentData);
           })
           .catch();
-        },
+        },*/
         emitReservation(newReservationId){
             this.$emit('updateReservation', newReservationId);
         },

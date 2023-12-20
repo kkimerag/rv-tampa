@@ -33,7 +33,6 @@ class StripeController extends Controller
     }
     public function GetPublishableKey(){
         $key = config('stripe.api_keys.publishable_key');
-        Log::Info($key);
         return response()->json($key);
     }
 
@@ -98,9 +97,19 @@ class StripeController extends Controller
             'enabled' => true
             ],
         ]);
-        // $bill = Bill::find($request['bill_id']);
-        // $bill->payment_id = $paymentID->id;
-        // $bill->save();
+        return response()->json($paymentID);
+    }
+
+    public function stripePaymentIntentOnCustomer(Request $request){
+        $paymentID = $this->stripe->paymentIntents->create([
+            'customer' => $request['customer_id'],
+            'setup_future_usage' => 'off_session',
+            'amount' => intval($request['bill_price']) * 100,    //Since stripe asumes the amounts in cents
+            'currency' => 'usd',
+            'automatic_payment_methods' => [
+               'enabled' => true
+            ],
+        ]);
         return response()->json($paymentID);
     }
 
