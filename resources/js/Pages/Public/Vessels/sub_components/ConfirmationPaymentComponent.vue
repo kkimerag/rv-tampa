@@ -112,8 +112,8 @@ export default {
                 price: this.totalPrice,
                 charge_now_amount: this.dueNow,
                 charge_later_amount: this.dueLater,
-                charge_now_date: this.reservStart,
-                charge_later_date: this.reservEnd,
+                charge_now_date: this.getToday(),
+                charge_later_date: this.reservStart,
             })
             .then(response=>{
                 // this.paymentIntent(response.data);
@@ -121,6 +121,22 @@ export default {
                 this.paymentData = response.data;
             })
             .catch();
+        },
+        getToday(){
+            // Create a new Date object
+            var today = new Date();
+
+            // Get the current date
+            var day = today.getDate();
+            var month = today.getMonth() + 1; // Months are zero-based, so we add 1
+            var year = today.getFullYear();
+
+            // Format the date as a string (optional)
+            var formattedDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+
+            console.log(formattedDate);
+            return formattedDate;
+
         },
         /*paymentIntent(billData){
           axios

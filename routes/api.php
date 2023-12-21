@@ -51,6 +51,7 @@ Route::prefix('googlemap')->group(function () {
 Route::prefix('reservations')->group(function () {
     Route::post('/create', [ReservationController::class, 'CreateReservation']);    
     Route::get('/get-pendings', [ReservationController::class, 'getPendings']);
+    Route::post('/collect-final-charges', [ReservationController::class, 'collectFinalCharges']);
 });
 
 Route::prefix('bills')->group(function () {

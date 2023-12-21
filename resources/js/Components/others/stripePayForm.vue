@@ -5,7 +5,7 @@
 	      <div id="payment-element">
 	        <!-- Elements will create form elements here -->
 	      </div>
-	      <button id="submit">Submit</button>
+	      <button id="submit" class="v-btn v-btn--flat v-theme--light bg-light-blue-darken-4 v-btn--density-default v-btn--size-default v-btn--variant-elevated mt-4">Confirm</button>
 	      <div id="error-message">
 	        <!-- Display error message to your customers here -->
 	      </div>
@@ -107,3 +107,9 @@
 		}
 	}
 </script>
+
+<style type="text/css">
+	#submit{
+
+	}
+</style>

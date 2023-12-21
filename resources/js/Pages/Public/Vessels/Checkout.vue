@@ -91,7 +91,7 @@ import { Head } from '@inertiajs/vue3';
                             </v-expansion-panel>
                             <v-expansion-panel :value="4" disabled>
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
-                                Choose security deposit option
+                                Payment Confirmation
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
                                 <ConfirmationPaymentComponent
