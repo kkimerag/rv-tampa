@@ -17,16 +17,21 @@ class BucketController extends Controller
 
     public function __construct()
     {
+        $bucketName = config('filesystems.disks.s3.bucket');
+        $region = config('filesystems.disks.s3.region');
+        $key = config('filesystems.disks.s3.key');
+        $secret = config('filesystems.disks.s3.secret');
+
         $this->s3Client = new S3Client([
             'version' => 'latest',
-            'region' => config('aws.region'),
+            'region'  => $region,
             'credentials' => [
-                'key' => config('aws.key'),
-                'secret' => config('aws.secret'),
+                'key'    => $key,
+                'secret' => $secret,
             ],
         ]);
     }
-    
+
     public function createFolder(){
         
         $bucketName = config('filesystems.disks.s3.bucket'); // Replace with your custom bucket name
