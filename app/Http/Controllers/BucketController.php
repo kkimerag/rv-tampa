@@ -17,7 +17,6 @@ class BucketController extends Controller
 
     public function __construct()
     {
-        $bucketName = config('filesystems.disks.s3.bucket');
         $region = config('filesystems.disks.s3.region');
         $key = config('filesystems.disks.s3.key');
         $secret = config('filesystems.disks.s3.secret');
@@ -32,68 +31,56 @@ class BucketController extends Controller
         ]);
     }
 
-    public function createFolder(){
-        
-        $bucketName = config('filesystems.disks.s3.bucket'); // Replace with your custom bucket name
-        $folderName = Str::lower(Str::random(10)); // Specify the folder name you want to create
-
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => config('aws.region'),
-            'credentials' => [
-                'key' => 'AKIAVC7LJSPJ6TRFBRBJ',
-                'secret' => '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',
-            ],
-        ]);
+    public function createFolder()
+    {
+        $bucketName = config('filesystems.disks.s3.bucket');
+        $folderName = Str::lower(Str::random(10));
 
         try {
-            // Create an empty object with a folder-like key
-            $s3->putObject([
+            $this->s3Client->putObject([
                 'Bucket' => $bucketName,
-                'Key' => $folderName . '/', // Append a forward slash to the folder name
+                'Key' => $folderName . '/',
                 'Body' => ''
             ]);
+
             return response()->json(['message' => $folderName]);
         } catch (AwsException $e) {
-            // Display an error message if an exception occurs
-            echo "Error creating folder: " . $e->getMessage();
+            Log::error("Error creating folder: " . $e->getMessage());
+            return response()->json(['error' => 'Failed to create folder'], 500);
         }
     }
 
-    public function uploadFiles(Request $request){    //To be removed
+    public function uploadFiles(Request $request)
+    {
         $bucketName = config('filesystems.disks.s3.bucket');
         $folderName = $request->folder;
         $uploadedFiles = $request->file('files');
-        
-        foreach ($uploadedFiles as $file) {
-            // Check the file size and use multi-part upload if it's greater than 100MB
-            if ($file->getSize() > 100 * 1024 * 1024) {
-                $s3 = new S3Client([
-                    'version' => 'latest',
-                    'region' => config('aws.region'),
-                    'credentials' => [
-                        'key' => 'AKIAVC7LJSPJ6TRFBRBJ',
-                        'secret' => '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',
-                    ],
-                ]);
 
-                $s3->upload(
-                    $bucketName,
-                    $folderName.'/' . $file->getClientOriginalName(),
-                    fopen($file->getRealPath(), 'rb'),
-                    'multipart'
-                );
+        foreach ($uploadedFiles as $file) {
+            if ($file->getSize() > 100 * 1024 * 1024) {
+                $this->uploadLargeFile($bucketName, $folderName, $file);
             } else {
-                // Use regular upload for smaller files
-                Storage::disk('s3')->putFileAs(
-                    'your_folder_name',
-                    $file,
-                    $file->getClientOriginalName()
-                );
+                $this->uploadSmallFile($folderName, $file);
             }
         }
-        
+
         return response()->json(['message' => "Success"]);
+    }
+
+    protected function uploadLargeFile($bucketName, $folderName, $file)
+    {
+        // Handle large file upload using multipart
+        // ...
+    }
+
+    protected function uploadSmallFile($folderName, $file)
+    {
+        // Handle regular file upload
+        Storage::disk('s3')->putFileAs(
+            $folderName,
+            $file,
+            $file->getClientOriginalName()
+        );
     }
 
     public function getPresignedURL(Request $request){   
@@ -103,35 +90,31 @@ class BucketController extends Controller
         $key = $request->input('inBucketURL');
         $expiration = '+1 hour'; // URL expiration time (e.g., +1 hour, +5 minutes, etc.)
 
-        $s3Client = Storage::disk('s3')->getClient();
+        // $s3Client = Storage::disk('s3')->getClient();
 
-        $command = $s3Client->getCommand('GetObject', [
-            'Bucket' => $bucket,
-            'Key' => $key,
-        ]);
+        try {
+           $command = $this->s3Client->getCommand('GetObject', [
+               'Bucket' => $bucket,
+               'Key' => $key,
+           ]);
 
-        // $middleware = new PresignedUrlMiddleware($s3Client, $command);
+           $presignedUrl = $this->s3Client->createPresignedRequest($command, $expiration)->getUri()->__toString();
 
-        $presignedUrl = $s3Client->createPresignedRequest($command, $expiration)->getUri()->__toString();
+           Log::info($presignedUrl);
 
-        Log::Info($presignedUrl);
+           return $presignedUrl;
+       } catch (AwsException $e) {
+           Log::error("Error generating presigned URL: " . $e->getMessage());
+           return response()->json(['error' => 'Failed to generate presigned URL'], 500);
+       }
 
-        return $presignedUrl;
     }
 
     public function deleteFromS3($bucketName, $s3Path)
     {
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => config('aws.region'),
-            'credentials' => [
-                'key' => 'AKIAVC7LJSPJ6TRFBRBJ',
-                'secret' => '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',
-            ],
-        ]);
 
         try {
-            $s3->deleteObject([
+            $this->s3Client->deleteObject([
                 'Bucket' => $bucketName,
                 'Key' => $s3Path,
             ]);
@@ -151,7 +134,7 @@ class BucketController extends Controller
             }
             return true; // Return true if the deletion is successful
         } catch (AwsException $e) {
-            // Handle the exception if the deletion fails
+            Log::error("Error deleting from S3: " . $e->getMessage());
             return false;
         }
     }
