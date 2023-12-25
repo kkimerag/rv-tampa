@@ -53,6 +53,7 @@ phases:
      - cp .env.example .env
      - aws secretsmanager get-secret-value --secret-id prod/rv-tampa/aws-credentials --query SecretString --output text > secrets.json
      - export $(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" secrets.json)
+     - echo $AWS_ACCESS_KEY_ID
      - sed -i "s/YOUR_ACCESS_KEY_ID/$AWS_ACCESS_KEY_ID/" .env
      - sed -i "s/YOUR_SECRET_ACCESS_KEY/$AWS_SECRET_ACCESS_KEY/" .env
      - composer install
