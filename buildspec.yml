@@ -52,15 +52,15 @@ phases:
     commands:
      - cp .env.example .env
      #Retreiving STRIPE LIVE CREDENTIALS
-     - aws secretsmanager get-secret-value --secret-id prod/rv-tampa/stripe-credentials --query SecretString --output text > secretsSTRIPE.json
+     # - aws secretsmanager get-secret-value --secret-id prod/rv-tampa/stripe-credentials --query SecretString --output text > secretsSTRIPE.json
+     # - export $(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" secretsSTRIPE.json)
+     # - sed -i "s#YOUR_STRIPE_PUBLISHABLE_KEY#$STRIPE_PUBLISHABLE_KEY#" .env
+     # - sed -i "s#YOUR_STRIPE_SECRET_KEY#$STRIPE_SECRET_KEY#" .env
+     #Retreiving STRIPE TEST CREDENTIALS
+     - aws secretsmanager get-secret-value --secret-id test/rv-tampa/stripe-credentials --query SecretString --output text > secretsSTRIPE.json
      - export $(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" secretsSTRIPE.json)
      - sed -i "s#YOUR_STRIPE_PUBLISHABLE_KEY#$STRIPE_PUBLISHABLE_KEY#" .env
      - sed -i "s#YOUR_STRIPE_SECRET_KEY#$STRIPE_SECRET_KEY#" .env
-     #Retreiving STRIPE TEST CREDENTIALS
-     #- aws secretsmanager get-secret-value --secret-id test/rv-tampa/stripe-credentials --query SecretString --output text > secretsSTRIPE.json
-     #- export $(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" secretsSTRIPE.json)
-     #- sed -i "s#YOUR_STRIPE_PUBLISHABLE_KEY#$STRIPE_PUBLISHABLE_KEY#" .env
-     #- sed -i "s#YOUR_STRIPE_SECRET_KEY#$STRIPE_SECRET_KEY#" .env
      #Retreiving AWS CREDENTIALS
      - aws secretsmanager get-secret-value --secret-id prod/rv-tampa/aws-credentials --query SecretString --output text > secretsAWS.json
      - export $(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" secretsAWS.json)
