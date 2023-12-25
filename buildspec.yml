@@ -53,9 +53,12 @@ phases:
      - cp .env.example .env
      - aws secretsmanager get-secret-value --secret-id prod/rv-tampa/aws-credentials --query SecretString --output text > secrets.json
      - export $(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" secrets.json)
-     - echo $AWS_ACCESS_KEY_ID
      - sed -i "s#YOUR_ACCESS_KEY_ID#$AWS_ACCESS_KEY_ID#" .env
      - sed -i "s#YOUR_SECRET_ACCESS_KEY#$AWS_SECRET_ACCESS_KEY#" .env
+     - aws secretsmanager get-secret-value --secret-id test/rv-tampa/stripe-credentials --query SecretString --output text > secrets.json
+     - export $(jq -r "to_entries|map(\"\(.key)=\(.value|tostring)\")|.[]" secrets.json)
+     - sed -i "s#YOUR_STRIPE_PUBLISHABLE_KEY#$STRIPE_PUBLISHABLE_KEY#" .env
+     - sed -i "s#YOUR_STRIPE_SECRET_KEY#$STRIPE_SECRET_KEY#" .env
      - composer install
      - npm install
     finally:
