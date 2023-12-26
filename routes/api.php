@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\VesselController;
+use App\Http\Controllers\AddOnController;
 use App\Http\Controllers\GoogleMapAPIController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\BillController;
@@ -40,6 +41,10 @@ Route::prefix('payments')->group(function () {
 Route::prefix('vessels')->group(function () {
     Route::get('/', [VesselController::class, 'getVessels']);
     Route::get('/get-id', [VesselController::class, 'getVesselById']);
+});
+
+Route::prefix('addons')->group(function () {
+    Route::get('/', [AddOnController::class, 'getAddons']);
 });
 
 Route::prefix('googlemap')->group(function () {

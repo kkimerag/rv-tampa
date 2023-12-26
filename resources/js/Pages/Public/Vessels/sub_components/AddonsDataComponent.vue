@@ -1,0 +1,77 @@
+<template>
+        <v-row v-if='addons'>
+            <v-col v-for='addon in addons' cols='12' md="4">
+                <v-checkbox
+                  v-model="selectedAddons"
+                  :value="addon"
+                >
+                <template v-slot:label>
+                    <div>
+                      {{addon.name}}
+                      <v-tooltip location="bottom">
+                        <template v-slot:activator="{ props }">
+                          <v-icon
+                            v-bind="props"
+                            @click.stop
+                          >
+                            mdi-information-slab-circle-outline
+                          </v-icon>
+                        </template>
+                        {{addon.description}}
+                      </v-tooltip>
+                    </div>
+                  </template>
+                </v-checkbox>
+            </v-col>
+        </v-row> 
+        <v-row v-else>
+            <v-col>
+                <v-progress-linear
+                    indeterminate
+                    color="teal"
+                ></v-progress-linear>
+            </v-col>
+        </v-row>
+</template>
+
+<script>
+export default {
+    props: {
+        vesselData: Object,
+    },
+    emits: [],
+  data() {
+    return {
+        addons:[],
+        selectedAddons: [],
+    };
+  },
+  
+  mounted() {
+    this.addons=null;
+    if(this.vesselData){
+        this.fetchAddons();
+    }
+  },
+
+  create(){
+
+  },
+
+  methods: {
+    fetchAddons(){
+        axios
+        .get('/api/addons' , {
+            params:{
+                user_id : this.vesselData.user_id,
+            }
+        })
+        .then(response =>{
+            this.addons = response.data;
+            console.log(response.data);
+        })
+        .catch();
+    },
+  },
+};
+</script>

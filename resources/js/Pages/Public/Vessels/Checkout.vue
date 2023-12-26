@@ -89,7 +89,29 @@ import { Head } from '@inertiajs/vue3';
                                     </v-row>
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
-                            <v-expansion-panel :value="4" disabled>
+
+                            <v-expansion-panel :value="4" >
+                                <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
+                                    <v-icon v-if="deposit && expandedPanel>4">mdi-check-circle-outline</v-icon>
+                                    <v-icon v-else>mdi-numeric-4-circle-outline</v-icon>
+                                Choose security deposit option
+                                </v-expansion-panel-title>
+                                <v-expansion-panel-text>
+                                    <v-row>
+                                        <v-col>
+                                            <div>
+                                                <AddonsDataComponent
+                                                :vesselData = 'vessel'
+                                                >
+                                                    
+                                                </AddonsDataComponent>
+                                            </div>
+                                        </v-col>
+                                    </v-row>
+                                </v-expansion-panel-text>
+                            </v-expansion-panel>
+
+                            <v-expansion-panel :value="5" disabled>
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
                                 Payment Confirmation
                                 </v-expansion-panel-title>
@@ -212,6 +234,7 @@ import { Head } from '@inertiajs/vue3';
 import UserDataComponent     from './sub_components/UserDataComponent.vue';
 import DeliveryDataComponent from './sub_components/DeliveryDataComponent.vue';
 import BookingDataComponent from './sub_components/BookingDataComponent.vue';
+import AddonsDataComponent from './sub_components/AddonsDataComponent.vue';
 import DepositDataComponent from './sub_components/DepositDataComponent.vue';
 import ConfirmationPaymentComponent from './sub_components/ConfirmationPaymentComponent.vue';
 export default {
@@ -243,11 +266,12 @@ export default {
       DeliveryDataComponent,
       BookingDataComponent,
       DepositDataComponent,
+      AddonsDataComponent
     },
   mounted() {
     this.getVessel();
     this.getDates();
-    this.expandedPanel = 1;
+    this.expandedPanel = 4;
     this.userData = [];
     this.deliveryFee = 0;
     this.deliveryAddress='';
@@ -271,6 +295,10 @@ export default {
         })
         .then(response => {
             this.vessel = response.data;
+            console.log("Checking Page----------");
+            console.log(this.vessel);
+            console.log("Checking Page----------");
+
             this.loading = false;
         })
         .catch();

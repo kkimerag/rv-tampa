@@ -162,7 +162,7 @@
                     </v-row>
                 </v-card-text>
             </v-card>
-    </v-col>
+        </v-col>
     </v-row>
 </template>
 
@@ -186,7 +186,7 @@ export default {
   },
   
   mounted() {
-    console.log(this.booking_range);
+    console.log(this.vessel_data);
     this.ownFees = 60;
   },
 
