@@ -39,7 +39,7 @@ export default {
     props: {
         vesselData: Object,
     },
-    emits: [],
+    emits: ['updateSelectedAddons'],
   data() {
     return {
         addons:[],
@@ -53,6 +53,12 @@ export default {
         this.fetchAddons();
     }
   },
+
+  watch: {
+      selectedAddons(newValue, oldValue) {
+        this.emitSelectedAddons(newValue);
+      },
+    },
 
   create(){
 
@@ -68,9 +74,11 @@ export default {
         })
         .then(response =>{
             this.addons = response.data;
-            console.log(response.data);
         })
         .catch();
+    },
+    emitSelectedAddons(newSelectedAddons){
+        this.$emit('updateSelectedAddons', newSelectedAddons);
     },
   },
 };

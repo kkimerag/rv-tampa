@@ -90,11 +90,11 @@ import { Head } from '@inertiajs/vue3';
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
 
-                            <v-expansion-panel :value="4" >
+                            <v-expansion-panel :value="4" :disabled='!selectedAddons'>
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
                                     <v-icon v-if="deposit && expandedPanel>4">mdi-check-circle-outline</v-icon>
                                     <v-icon v-else>mdi-numeric-4-circle-outline</v-icon>
-                                Choose security deposit option
+                                Add other Toys & Add-Ons
                                 </v-expansion-panel-title>
                                 <v-expansion-panel-text>
                                     <v-row>
@@ -102,6 +102,7 @@ import { Head } from '@inertiajs/vue3';
                                             <div>
                                                 <AddonsDataComponent
                                                 :vesselData = 'vessel'
+                                                @updateSelectedAddons="updateSelectedAddons($event)"
                                                 >
                                                     
                                                 </AddonsDataComponent>
@@ -124,6 +125,7 @@ import { Head } from '@inertiajs/vue3';
                                 :reservStart       ='startDateReserv'
                                 :reservEnd         ='endDateReserv'
                                 :deliveryAddress   ='deliveryAddress'
+                                :selectedAddons    ='selectedAddons'
                                 :totalPrice        = 'totalPrice'
                                 :dueNow            = 'dueNow'
                                 :dueLater          = 'dueLater'
@@ -142,6 +144,7 @@ import { Head } from '@inertiajs/vue3';
                         :delivery_fee        = 'deliveryFee'
                         :deposit             = 'deposit'
                         :holdPercent         = 'holdPercent'
+                        :selectedAddons      = 'selectedAddons'
                         @updateTotalPrice    = 'updateTotalPrice'
                         @updateDueNowPrice   = 'updateDueNowPrice'
                         @updateDueLaterPrice = 'updateDueLaterPrice'
@@ -254,6 +257,7 @@ export default {
         deposit: null,
         deliveryFee: null,
         deliveryAddress:null,
+        selectedAddons:[],
         totalPrice: null,
         dueNow: null,
         dueLater: null,
@@ -275,6 +279,7 @@ export default {
     this.userData = [];
     this.deliveryFee = 0;
     this.deliveryAddress='';
+    this.selectedAddons = [];
     this.dueNow = 0;
     this.dueLater = 0;
     console.log(this.holdPercent);
@@ -340,6 +345,9 @@ export default {
     },
     updateDeliveryAddress(newDeliveryAddress) {
         this.deliveryAddress = newDeliveryAddress;
+    },
+    updateSelectedAddons(newSelectedAddons){
+        this.selectedAddons = newSelectedAddons;
     },
     updateExpandedPanel(newExpandedPanel){
         this.expandedPanel=newExpandedPanel;

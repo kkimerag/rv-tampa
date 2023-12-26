@@ -133,6 +133,10 @@
                         <v-col> Cleaning Fee </v-col>
                         <v-col>${{ownFees}}</v-col>
                     </v-row>
+                    <v-row no-gutters v-if="selectedAddons.length!=0">
+                        <v-col> Add-ons </v-col>
+                        <v-col>${{getAddonsTotalCost()}}</v-col>
+                    </v-row>
                     <v-row no-gutters v-if="delivery_fee!=0">
                         <v-col> Delivery Fee </v-col>
                         <v-col>${{delivery_fee}}</v-col>
@@ -173,7 +177,8 @@ export default {
         booking_range:Array,
         delivery_fee: Number,
         deposit: Number,
-        holdPercent: String
+        holdPercent: String,
+        selectedAddons: Array,
     },
     emits: ['updateTotalPrice' , 'updateDueNowPrice' , 'updateDueLaterPrice'],
   data() {
@@ -184,9 +189,7 @@ export default {
         ownFees:null,
     };
   },
-  
   mounted() {
-    console.log(this.vessel_data);
     this.ownFees = 60;
   },
 
@@ -196,9 +199,14 @@ export default {
 
   methods: {
     getTotal(){
-        this.totalPrice = this.calculateTotalPerNight()+this.ownFees+this.delivery_fee;
+        this.totalPrice = this.calculateTotalPerNight()+this.getAddonsTotalCost()+this.ownFees+this.delivery_fee;
         this.emitTotalPrice(this.totalPrice);
         return this.totalPrice;
+    },
+    getAddonsTotalCost(){
+        return this.selectedAddons.reduce((accumulator, currentValue) => {
+          return accumulator + parseInt(currentValue.daily_price);
+        }, 0);
     },
     getDueNowAmount(){
         this.dueNow = this.getHoldingPecentage();
