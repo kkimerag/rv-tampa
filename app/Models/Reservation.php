@@ -18,4 +18,11 @@ class Reservation extends Model
     {
         return $this->hasOne(Bill::class);
     }
+
+    public function addOns()
+    {
+        return $this->belongsToMany(AddOn::class, 'addon_reservation')
+            ->withPivot('start_date', 'end_date')
+            ->withTimestamps();
+    }
 }
