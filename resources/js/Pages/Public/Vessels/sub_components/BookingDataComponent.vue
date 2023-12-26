@@ -134,7 +134,27 @@
                         <v-col>${{ownFees}}</v-col>
                     </v-row>
                     <v-row no-gutters v-if="selectedAddons.length!=0">
-                        <v-col> Add-ons </v-col>
+                        <v-col> Add-ons 
+                            <v-tooltip location="bottom" >
+                              <template v-slot:activator="{ props }">
+                                <v-icon v-bind="props">mdi-information-slab-circle-outline</v-icon>
+                              </template>
+                              <v-row class="p-6">
+                                  <v-col>
+                                      <v-row v-for='addon in selectedAddons'>
+                                          <v-row>
+                                              <v-col cols='8'>
+                                                  {{ addon.name}}
+                                              </v-col>
+                                              <v-col cols='4'>
+                                                  ${{ addon.daily_price}}
+                                              </v-col>
+                                          </v-row>
+                                      </v-row>
+                                  </v-col>
+                              </v-row>
+                            </v-tooltip>
+                        </v-col>
                         <v-col>${{getAddonsTotalCost()}}</v-col>
                     </v-row>
                     <v-row no-gutters v-if="delivery_fee!=0">

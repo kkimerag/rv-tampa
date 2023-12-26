@@ -210,6 +210,7 @@ import { Head } from '@inertiajs/vue3';
                                                     :delivery_fee        = 'deliveryFee'
                                                     :deposit             = 'deposit'
                                                     :holdPercent         = 'holdPercent'
+                                                    :selectedAddons      = 'selectedAddons'
                                                     @updateTotalPrice    = 'updateTotalPrice'
                                                     @updateDueNowPrice   = 'updateDueNowPrice'
                                                     @updateDueLaterPrice = 'updateDueLaterPrice'
@@ -221,12 +222,10 @@ import { Head } from '@inertiajs/vue3';
                                         </v-card>
                                     </v-dialog>
                                 </v-col>
-                            </v-row>
-                            
+                            </v-row>                            
                         </v-footer>
                     </v-col>
                 </v-row> 
-
             </v-col>
         </v-row>
         
