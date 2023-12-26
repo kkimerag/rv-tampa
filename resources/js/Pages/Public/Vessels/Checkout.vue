@@ -180,10 +180,14 @@ import { Head } from '@inertiajs/vue3';
                                             <v-card-text>
                                                     <div>
                                                     <BookingDataComponent
-                                                    :vessel_data = 'vessel'
-                                                    :booking_range = 'bookingRange'
-                                                    :delivery_fee = 'deliveryFee'
-                                                    :deposit = 'deposit'
+                                                    :vessel_data         = 'vessel'
+                                                    :booking_range       = 'bookingRange'
+                                                    :delivery_fee        = 'deliveryFee'
+                                                    :deposit             = 'deposit'
+                                                    :holdPercent         = 'holdPercent'
+                                                    @updateTotalPrice    = 'updateTotalPrice'
+                                                    @updateDueNowPrice   = 'updateDueNowPrice'
+                                                    @updateDueLaterPrice = 'updateDueLaterPrice'
                                                     >
                                                         
                                                     </BookingDataComponent>

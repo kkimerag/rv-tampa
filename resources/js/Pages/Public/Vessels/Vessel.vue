@@ -11,8 +11,8 @@ import { Head } from '@inertiajs/vue3';
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Our RVs</h2>
         </template>
 
-        <v-row>
-            <v-col class='mb-36'>
+        <v-row justify='center'>
+            <v-col class='mb-36' cols='12' lg='8' md='10' sm='12' xs='12'>
                 <v-sheet>
                     <v-row>
                         <v-col cols='12'>
