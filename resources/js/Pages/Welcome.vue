@@ -87,28 +87,57 @@ defineProps({
                                       About Us
                                   </v-btn>
                                 </v-list-item>
-                                <v-divider>
+                                <v-divider> </v-divider>  
+                                <v-list-item v-if="$page.props.auth.user">
+                                    <v-sheet
+                                    
+                                    rounded="pill"
+                                    color="light-blue-darken-4"
+                                    >
+                                        <v-btn
+                                        variant="text"
+                                        :href="route('dashboard')"
+                                        >
+                                            Dashboard
+                                        </v-btn>
+                                    </v-sheet>
+                                </v-list-item>
+                                <template v-else>
                                     <v-list-item>
-                                      <v-btn
-                                      variant="text"
-                                      >
-                                          Features
-                                      </v-btn>
-                                    </v-list-item>
-                                    <v-list-item>
-                                      <v-btn
-                                      variant="text"
-                                      >
-                                          About Us
-                                      </v-btn>
-                                    </v-list-item>
-                                </v-divider>
+                                        <v-sheet
+                                        color="light-blue-darken-4"
+                                        >
+                                            <v-row no-gutters>
+                                                <v-col>
+                                                    <v-btn
+                                                    variant="text"
+                                                    :href="route('login')"
+                                                    >
+                                                        Log In
+                                                    </v-btn>
+                                                </v-col>
+                                            </v-row>
+                                            <v-row no-gutters>
+                                                <v-col>
+                                                    <v-btn
+                                                    variant="text"
+                                                    :href="route('register')"
+                                                    >
+                                                        Register
+                                                    </v-btn>
+                                                </v-col>
+                                            </v-row>  
+                                        </v-sheet>
+                                                                          
+                                    </v-list-item> 
+                                </template>                              
+                                                               
                               </v-list>
                             </v-menu>
                         </v-sheet>
                         
                     </v-col>
-                    <v-col cols="" md="6" lg="4">
+                    <v-col cols="" md="5" lg="4">
                         <div class="d-flex justify-end">
                             <v-row>
                                 <v-col>
@@ -143,7 +172,7 @@ defineProps({
                             </v-row>
                         </div>
                     </v-col>
-                    <v-col cols="12" md="2" lg="2" v-if="canLogin">
+                    <v-col cols="12" md="3" lg="2" v-if="canLogin">
                         <div class="d-flex justify-end">
                             <v-sheet
                             
