@@ -218,20 +218,31 @@ defineProps({
             cover
             gradient = "to top, rgba(0,0,0,0.2), rgba(0,0,0,0.4) 70%, transparent"
             >
-
-                    <v-sheet 
-                    class="d-flex justify-center align-end h-10 pb-12" 
-                    height="70vh" 
-                    color="transparent">
-                        <v-btn
-                        color="light-blue-darken-4"
-                        size="large"
-                        :href="externalUrl"
-                        >
-                            BOOK IT
-                        </v-btn>
-                    </v-sheet>                            
-
+                <v-row justify="center" justify-md="start">
+                    <v-col class='mt-36 md:mt-16 md:ml-16' cols='10' md='4' sm='8'>
+                        <v-card variant='text'>
+                            <v-card-title class="text-h4 text-sky-600 multiline-title">
+                                
+                                YOUR HOME AWAY FROM HOME
+                            </v-card-title>
+                            <v-card-text class='text-h6 text-white'>
+                                Whether it's a spontaneous weekend getaway or a planned cross-country road trip, this camper seamlessly integrates into any escapade. 
+                            </v-card-text>
+                            <v-card-actions>
+                                    <v-btn
+                                    color="light-blue-darken-4"
+                                    variant="flat"
+                                    size="large"
+                                    class="justify-center"
+                                    :href="externalUrl"
+                                    >
+                                        RENT IT!
+                                    </v-btn>
+                                
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-img>
         </v-col>
     </v-row>
@@ -663,16 +674,21 @@ defineProps({
         },
     };
 </script>
-<style type="text/css">
-    html,body{
-        overflow-x: hidden;
-    }
-    #logo{
-        width: 80px;
-        height: 80px;
-        margin-top: -10px;
-    }
-    .centered-actions{
-        justify-content: center;
-    }
+<style scoped>
+html,body{
+    overflow-x: hidden;
+}
+#logo{
+    width: 80px;
+    height: 80px;
+    margin-top: -10px;
+}
+.centered-actions{
+    justify-content: center;
+}
+.multiline-title {
+  white-space: normal;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: bold;
+}
 </style>
