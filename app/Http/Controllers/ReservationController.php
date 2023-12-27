@@ -15,7 +15,18 @@ class ReservationController extends Controller
     public function CreateReservation(Request $request){
 
         $reservation = Reservation::create($request->all());
+        $selectedAddons = $request->input('selected_addons', []);
 
+        if(count($selectedAddons) !=0 ){
+            foreach ($selectedAddons as $addOn) {
+                $reservation->addOns()->attach($addOn['id'], [
+                    'start_date' => $request->input('reservation_start_date'),
+                    'end_date' => $request->input('reservation_end_date'),
+                ]);
+            }
+        }else{
+            Log::Info("No AddOns");
+        }
         return response()->json($reservation, 201);
     }
 

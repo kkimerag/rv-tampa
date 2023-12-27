@@ -33,6 +33,7 @@ export default {
         totalPrice:      Number,
         dueNow:          Number,
         dueLater:        Number,
+        selectedAddons: Array,
     },
     emits: ['updateReservation'],
     data() {
@@ -46,6 +47,9 @@ export default {
         StripePayForm,
       },
     mounted() {
+        console.log("Due Now-------");
+        console.log(this.dueNow);
+        console.log("Due Now-------");
         this.getPublishableKey();
         this.checkData();
         if( 
@@ -83,22 +87,22 @@ export default {
             }else{
                 this.readyToBook=false;
             }
-            console.log(this.reservationId);
         },
         createReservation(){
             axios
             .post('/api/reservations/create' , {
-                renter_name: this.userData[0],
-                renter_last_name: this.userData[1], 
-                email_address: this.userData[2], 
-                phone_number: this.userData[3],
-                reservation_start_date: this.reservStart,
-                reservation_end_date:this.reservEnd, 
-                delivery_address: this.deliveryAddress,
-                vessel_id: this.vesselId,
+                renter_name            : this.userData[0],
+                renter_last_name       : this.userData[1], 
+                email_address          : this.userData[2], 
+                phone_number           : this.userData[3],
+                reservation_start_date : this.reservStart,
+                reservation_end_date   :this.reservEnd, 
+                delivery_address       : this.deliveryAddress,
+                vessel_id              : this.vesselId,
+                selected_addons        : this.selectedAddons
             })
             .then(response => {
-                // console.log(response.data);
+                console.log(this.selectedAddons);
                 this.emitReservation(response.data.id);
                 this.createBillForReservation(response.data.id);
                 // this.reservationId =  response.data.id;
@@ -136,7 +140,6 @@ export default {
 
             console.log(formattedDate);
             return formattedDate;
-
         },
         /*paymentIntent(billData){
           axios

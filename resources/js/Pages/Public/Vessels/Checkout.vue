@@ -90,7 +90,7 @@ import { Head } from '@inertiajs/vue3';
                                 </v-expansion-panel-text>
                             </v-expansion-panel>
 
-                            <v-expansion-panel :value="4" :disabled='!selectedAddons'>
+                            <v-expansion-panel :value="4" :disabled='expandedPanel<4'>
                                 <v-expansion-panel-title expand-icon="mdi-plus" collapse-icon="mdi-minus">
                                     <v-icon v-if="deposit && expandedPanel>4">mdi-check-circle-outline</v-icon>
                                     <v-icon v-else>mdi-numeric-4-circle-outline</v-icon>
@@ -103,6 +103,7 @@ import { Head } from '@inertiajs/vue3';
                                                 <AddonsDataComponent
                                                 :vesselData = 'vessel'
                                                 @updateSelectedAddons="updateSelectedAddons($event)"
+                                                @updateExpandedPanel="updateExpandedPanel($event)"
                                                 >
                                                     
                                                 </AddonsDataComponent>
@@ -274,7 +275,7 @@ export default {
   mounted() {
     this.getVessel();
     this.getDates();
-    this.expandedPanel = 4;
+    this.expandedPanel = 1;
     this.userData = [];
     this.deliveryFee = 0;
     this.deliveryAddress='';
@@ -299,10 +300,6 @@ export default {
         })
         .then(response => {
             this.vessel = response.data;
-            console.log("Checking Page----------");
-            console.log(this.vessel);
-            console.log("Checking Page----------");
-
             this.loading = false;
         })
         .catch();

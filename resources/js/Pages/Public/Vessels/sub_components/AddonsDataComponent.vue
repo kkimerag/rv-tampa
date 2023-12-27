@@ -1,27 +1,46 @@
 <template>
         <v-row v-if='addons'>
-            <v-col v-for='addon in addons' cols='12' md="4">
-                <v-checkbox
-                  v-model="selectedAddons"
-                  :value="addon"
-                >
-                <template v-slot:label>
-                    <div>
-                      {{addon.name}}
-                      <v-tooltip location="bottom">
-                        <template v-slot:activator="{ props }">
-                          <v-icon
-                            v-bind="props"
-                            @click.stop
-                          >
-                            mdi-information-slab-circle-outline
-                          </v-icon>
-                        </template>
-                        {{addon.description}}
-                      </v-tooltip>
-                    </div>
-                  </template>
-                </v-checkbox>
+            <v-col>
+                <v-row>
+                    <v-col v-for='addon in addons' cols='12' md="4">
+                        <v-checkbox
+                          v-model="selectedAddons"
+                          :value="addon"
+                        >
+                        <template v-slot:label>
+                            <div>
+                              {{addon.name}}
+                              <v-tooltip location="bottom">
+                                <template v-slot:activator="{ props }">
+                                  <v-icon
+                                    v-bind="props"
+                                    @click.stop
+                                  >
+                                    mdi-information-slab-circle-outline
+                                  </v-icon>
+                                </template>
+                                {{addon.description}}
+                              </v-tooltip>
+                            </div>
+                          </template>
+                        </v-checkbox>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-row>
+                            <v-col>
+                                <v-btn 
+                                flat
+                                color='light-blue-darken-4'
+                                @click="next"
+                                >
+                                    Continue
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
             </v-col>
         </v-row> 
         <v-row v-else>
@@ -39,7 +58,7 @@ export default {
     props: {
         vesselData: Object,
     },
-    emits: ['updateSelectedAddons'],
+    emits: ['updateSelectedAddons' , 'updateExpandedPanel'],
   data() {
     return {
         addons:[],
@@ -79,6 +98,9 @@ export default {
     },
     emitSelectedAddons(newSelectedAddons){
         this.$emit('updateSelectedAddons', newSelectedAddons);
+    },
+    next(){
+        this.$emit('updateExpandedPanel', 5);
     },
   },
 };
