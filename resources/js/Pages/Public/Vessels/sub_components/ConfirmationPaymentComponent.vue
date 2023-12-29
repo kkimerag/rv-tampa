@@ -5,7 +5,6 @@
             :paymentSecret      = "paymentData.client_secret"
             :publishableKey     = "publishableKey"
             :connectedAccountId = "connectedAccountId"
-            :appURL             = "appURL"
             >
                 
             </StripePayForm>
@@ -36,7 +35,6 @@ export default {
         dueNow:          Number,
         dueLater:        Number,
         selectedAddons:  Array,
-        appURL :         String,
     },
     emits: ['updateReservation'],
     data() {

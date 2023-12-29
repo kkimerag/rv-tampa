@@ -29,7 +29,6 @@
 			paymentSecret      : String,
 			publishableKey     : String,
 			connectedAccountId : String,
-			appURL             : String,
 		},
 		data() {
 			return{
@@ -41,9 +40,9 @@
 			}
 		},
 		mounted() {
-			this.currentURL = window.location.href.pathname;
-			// let urlObject = new URL(window.location.href);
-			// this.currentURL = urlObject.host;
+			// this.currentURL = window.location.href.pathname;
+			let urlObject = new URL(window.location.href);
+			this.currentURL = urlObject.host;
 			this.initializeStripe();
 		},
 		methods:{

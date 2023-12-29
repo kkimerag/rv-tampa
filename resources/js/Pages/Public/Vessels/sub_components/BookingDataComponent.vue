@@ -135,9 +135,21 @@
                     </v-row>
                     <v-row no-gutters v-if="selectedAddons.length!=0">
                         <v-col> Add-ons 
-                            <v-tooltip location="bottom" >
+                            <v-tooltip location="bottom" v-model="addonToolTip" >
                               <template v-slot:activator="{ props }">
-                                <v-icon v-bind="props">mdi-information-slab-circle-outline</v-icon>
+                                <v-btn
+                                v-bind="props"
+                                flat
+                                
+                                @click="addonToolTip = !addonToolTip"
+                                >
+                                    <v-icon 
+                                    
+                                    >
+                                        mdi-information-slab-circle-outline
+                                    </v-icon>
+                                </v-btn>
+                                
                               </template>
                               <v-row class="p-6">
                                   <v-col>
@@ -207,10 +219,12 @@ export default {
         dueNow:null,
         dueLater:null,
         ownFees:null,
+        addonToolTip:false,
     };
   },
   mounted() {
     this.ownFees = 60;
+    this.addonToolTip = false;
   },
 
   create(){

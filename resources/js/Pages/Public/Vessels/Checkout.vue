@@ -130,7 +130,6 @@ import { Head } from '@inertiajs/vue3';
                                 :totalPrice        = 'totalPrice'
                                 :dueNow            = 'dueNow'
                                 :dueLater          = 'dueLater'
-                                :appURL            = 'appURL'
                                 >
                                     
                                 </ConfirmationPaymentComponent>
@@ -245,7 +244,6 @@ export default {
     props: {
         vessel_id  :   String,
         holdPercent: String,
-        appURL     : String,
     },
   data() {
     return {
