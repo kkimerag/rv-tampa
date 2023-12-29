@@ -167,13 +167,15 @@ import { Head } from '@inertiajs/vue3';
                                     
                                     <v-row>
                                         <v-col>
-                                            <v-row>
+                                            <v-row justify="space-between">
                                                 <v-col v-if="vessel">
-                                                    {{vessel.rate.base_nightly_price}}/night
+                                                    Due today: ${{dueNow}}
                                                 </v-col>
-                                                <v-col>
-                                                    <v-btn flat @click="dialog=true">
-                                                    Get details
+                                                <v-col cols='2'>
+                                                    <v-btn flat icon @click="dialog=true">
+                                                        <v-icon>
+                                                            mdi-chevron-up
+                                                        </v-icon>
                                                     </v-btn>
                                                 </v-col>
                                             </v-row>
