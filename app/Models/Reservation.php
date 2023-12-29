@@ -19,6 +19,11 @@ class Reservation extends Model
         return $this->hasOne(Bill::class);
     }
 
+    public function vessel()
+    {
+        return $this->belongsTo(Vessel::class);
+    }
+
     public function addOns()
     {
         return $this->belongsToMany(AddOn::class, 'addon_reservation')

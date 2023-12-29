@@ -23,6 +23,7 @@ class StripeController extends Controller
         $this->stripe = new StripeClient(config('stripe.api_keys.secret_key'));
         Stripe::setApiKey(config('stripe.api_keys.secret_key'));
     }
+
     public function CreateAccount(){
         $resul = $this->stripe->accounts->create([
             'type' => 'standard',
@@ -31,6 +32,7 @@ class StripeController extends Controller
         ]);
         return response()->json($resul);
     }
+
     public function GetPublishableKey(){
         $key = config('stripe.api_keys.publishable_key');
         return response()->json($key);
@@ -50,6 +52,7 @@ class StripeController extends Controller
         
         return response()->json($link);
     }
+
     public function connectToStripe(Request $request){
         $userId = $request['user']['id'];
         $account = $this->CreateAccount();
@@ -89,6 +92,22 @@ class StripeController extends Controller
         return response()->json($stripeClientData);
     }
 
+    public function createClientForConnectedAccount(Request $request){
+        // $connected_account_id = $request->stripe_account;
+        $connected_account_id = 'acct_1OS2OgPQJmQihlBX';
+        $stripeCustomerData = $this->stripe->customers->create(
+            [
+                'name'  => $request->customer_name,
+                'email' => $request->customer_email,  // Replace with the customer's email
+                // 'description' => 'Customer for connected account',
+            ],
+            [
+                'stripe_account' => $connected_account_id
+            ]
+        );
+        return response()->json($stripeCustomerData);
+    }
+
     public function stripePaymentIntent(Request $request){
         $paymentID = $this->stripe->paymentIntents->create([
           'amount' => intval($request['bill_price']) * 100,    //Since stripe asumes the amounts in cents
@@ -110,6 +129,19 @@ class StripeController extends Controller
                'enabled' => true
             ],
         ]);
+        return response()->json($paymentID);
+    }
+
+    public function createAccountPaymentIntent(Request $request){
+        $paymentID = $this->stripe->paymentIntents->create([
+            'customer' => $request['customer_id'],
+            'setup_future_usage' => 'off_session',
+            'amount' => intval($request['bill_price']) * 100,    //Since stripe asumes the amounts in cents
+            'currency' => 'usd',
+            'automatic_payment_methods' => ['enabled' => true],
+        ],
+        ['stripe_account' => $request['stripe_account']]
+        );
         return response()->json($paymentID);
     }
 
@@ -174,16 +206,38 @@ class StripeController extends Controller
         $userId  = $request['userId'];
         $planId  = $request['subsId'];
 
-        $session = \Stripe\Checkout\Session::create([
-          'success_url' => config('app.url').'/subscriptions/thanks?session_id={CHECKOUT_SESSION_ID}&user_id='.$userId.'&plan_id='.$planId,
-          'cancel_url' => 'https://example.com/canceled.html',
-          'mode' => 'subscription',
-          'line_items' => [[
-            'price' => $priceId,
-            // For metered billing, do not pass quantity
-            'quantity' => 1,
-          ]],
-        ]);
+        // $session = \Stripe\Checkout\Session::create([
+        //   'success_url' => config('app.url').'/subscriptions/thanks?session_id={CHECKOUT_SESSION_ID}&user_id='.$userId.'&plan_id='.$planId,
+        //   'cancel_url' => 'https://example.com/canceled.html',
+        //   'mode' => 'subscription',
+        //   'line_items' => [[
+        //     'price' => $priceId,
+        //     // For metered billing, do not pass quantity
+        //     'quantity' => 1,
+        //   ]],
+        // ]);
+
+        $connetedAcc = 'acct_1OL1LwPBNm6pfq3b';
+
+        $session = $this->stripe->checkout->sessions->create(
+            [
+            'mode' => 'payment',
+            'line_items' => [
+                [
+                    'price' => $priceId,
+                    'quantity' => 1,
+                ],
+            ],
+            'payment_intent_data' => [
+                'application_fee_amount' => 123
+            ],
+            'success_url' => 'https://example.com/success',
+            'cancel_url' => 'https://example.com/cancel',
+            ],
+            [
+                'stripe_account' => $connetedAcc
+            ]
+        );
         return response()->json($session);      
     }
 

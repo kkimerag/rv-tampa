@@ -52,6 +52,7 @@ Route::prefix('public')->group(function () {
         return Inertia::render('Public/Vessels/Checkout', [
             'vessel_id'   => $folderId,
             'holdPercent' => config('reservation.hold_percentage'),
+            'appURL' => config('app.url'),
         ]);
     });
 });

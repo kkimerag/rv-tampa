@@ -33,9 +33,11 @@ Route::prefix('payments')->group(function () {
     Route::get('/get-stripe-link', [StripeController::class, 'CreateAccountLink']);
     Route::get('/stripe-account-exist', [StripeController::class, 'stripeAccountExist']);
     Route::get('/get-publishable-key', [StripeController::class, 'GetPublishableKey']);
+    Route::post('/create-client-for-connected-account', [StripeController::class, 'createClientForConnectedAccount']);
     Route::post('/create-stripe-payment-intent', [StripeController::class, 'stripePaymentIntent']);
     Route::post('/create-checkout-session', [StripeController::class, 'createCheckoutSession']);
     Route::post('/verify-check-out', [StripeController::class, 'verifyCheckoutSession'])->name('subscription.verify');
+    Route::post('/create-account-payment-intent', [StripeController::class, 'createAccountPaymentIntent']);
 });
 
 Route::prefix('vessels')->group(function () {

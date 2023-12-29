@@ -26,8 +26,10 @@
 <script type="text/javascript">
 	export default{
 		props:{
-			paymentSecret : String,
-			publishableKey: String
+			paymentSecret      : String,
+			publishableKey     : String,
+			connectedAccountId : String,
+			appURL             : String,
 		},
 		data() {
 			return{
@@ -39,7 +41,9 @@
 			}
 		},
 		mounted() {
-			this.currentURL = window.location.href;
+			this.currentURL = window.location.href.pathname;
+			// let urlObject = new URL(window.location.href);
+			// this.currentURL = urlObject.host;
 			this.initializeStripe();
 		},
 		methods:{
@@ -77,21 +81,15 @@
 			    }
 			  },
 			async initializeStripe() {
-			  // Dynamically load the Stripe library
 			  const script = document.createElement('script');
 			  script.src = 'https://js.stripe.com/v3/';
 			  script.async = true;
-
-			  // Define a callback function to execute when the script is loaded
 			        script.onload = () => {
-			          // Now, you can use Stripe functionality
-			          this.stripe = Stripe(this.publishableKey);
-			          console.log("terminado");
-			          console.log(this.paymentSecret);
+			          this.stripe = Stripe(this.publishableKey  ,{
+						    stripeAccount: this.connectedAccountId, // Connected account ID
+						}); //attacing the conected account
 			          this.executePayment(this.paymentSecret);
 			        };
-
-			  // Append the script element to the document's head
 			  document.head.appendChild(script);
 			},
 			executePayment(clienteSecret){
@@ -100,7 +98,6 @@
 			      appearance: {/*...*/},
 			    };
 			    this.elements = this.stripe.elements(options);
-			    // Create and mount the Payment Element
 			    const paymentElement = this.elements.create('payment');
 			    paymentElement.mount('#payment-element');
 			},

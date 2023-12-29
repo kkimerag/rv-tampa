@@ -130,6 +130,7 @@ import { Head } from '@inertiajs/vue3';
                                 :totalPrice        = 'totalPrice'
                                 :dueNow            = 'dueNow'
                                 :dueLater          = 'dueLater'
+                                :appURL            = 'appURL'
                                 >
                                     
                                 </ConfirmationPaymentComponent>
@@ -242,8 +243,9 @@ import DepositDataComponent from './sub_components/DepositDataComponent.vue';
 import ConfirmationPaymentComponent from './sub_components/ConfirmationPaymentComponent.vue';
 export default {
     props: {
-        vessel_id:   String,
+        vessel_id  :   String,
         holdPercent: String,
+        appURL     : String,
     },
   data() {
     return {
@@ -282,7 +284,7 @@ export default {
     this.selectedAddons = [];
     this.dueNow = 0;
     this.dueLater = 0;
-    console.log(this.holdPercent);
+    console.log(this.appURL);
   },
 
   create(){

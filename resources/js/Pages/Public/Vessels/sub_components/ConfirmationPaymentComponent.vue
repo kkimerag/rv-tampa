@@ -2,8 +2,10 @@
     <v-row v-if="paymentData">
         <v-col>
             <StripePayForm
-            :paymentSecret = "paymentData.client_secret"
-            :publishableKey= "publishableKey"
+            :paymentSecret      = "paymentData.client_secret"
+            :publishableKey     = "publishableKey"
+            :connectedAccountId = "connectedAccountId"
+            :appURL             = "appURL"
             >
                 
             </StripePayForm>
@@ -33,7 +35,8 @@ export default {
         totalPrice:      Number,
         dueNow:          Number,
         dueLater:        Number,
-        selectedAddons: Array,
+        selectedAddons:  Array,
+        appURL :         String,
     },
     emits: ['updateReservation'],
     data() {
@@ -41,6 +44,7 @@ export default {
             readyToBook:false,
             paymentData:null,
             publishableKey:null,
+            connectedAccountId: null,
         };
     },
     components: {
@@ -112,6 +116,8 @@ export default {
         createBillForReservation(reservationID){
             axios
             .post('/api/bills/create-bill-for-reservation',{
+                renter_full_name: this.userData[0] +" "+ this.userData[1],
+                email_address          : this.userData[2],
                 reservation_id: reservationID,
                 price: this.totalPrice,
                 charge_now_amount: this.dueNow,
@@ -122,7 +128,8 @@ export default {
             .then(response=>{
                 // this.paymentIntent(response.data);
                 console.log(response.data);
-                this.paymentData = response.data;
+                this.paymentData        = response.data['paymentIntent'];
+                this.connectedAccountId = response.data['accountId'] 
             })
             .catch();
         },
