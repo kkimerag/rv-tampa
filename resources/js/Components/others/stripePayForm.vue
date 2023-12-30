@@ -42,7 +42,9 @@
 		mounted() {
 			// this.currentURL = window.location.href.pathname;
 			let urlObject = new URL(window.location.href);
-			this.currentURL = urlObject.host;
+			console.log(urlObject);
+			this.currentURL = urlObject.protocol+'//'+urlObject.host;
+			console.log(this.currentURL);
 			this.initializeStripe();
 		},
 		methods:{
