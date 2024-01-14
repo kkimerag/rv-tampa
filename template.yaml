@@ -1,0 +1,22 @@
+MyApacheUserData:
+  Type: 'AWS::EC2::Instance'
+  Properties:
+    InstanceId: 
+      Fn::ImportValue:
+        !Sub "${OtherStackName}-InstanceID"
+    UserData:
+      Fn::Base64: |
+        #!/bin/bash
+        yum update -y
+        yum install -y httpd
+        systemctl start httpd
+        systemctl enable httpd
+
+        echo '<VirtualHost *:80>
+          ServerAdmin webmaster@localhost
+          DocumentRoot /var/www/html
+          ErrorLog ${APACHE_LOG_DIR}/error.log
+          CustomLog ${APACHE_LOG_DIR}/access.log combined
+        </VirtualHost>' > /etc/httpd/conf.d/my-vhost.conf
+
+        systemctl restart httpd
