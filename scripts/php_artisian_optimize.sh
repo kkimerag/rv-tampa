@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Cleaning Cache
-sudo php artisan optimize
+sudo php /var/www/html/rv-tampa.com artisan optimize
