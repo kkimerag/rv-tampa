@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/your-app
+    destination: /var/www/html/rv-tampa.com
 hooks:
   BeforeInstall:
     - location: scripts/stop_apache.sh
