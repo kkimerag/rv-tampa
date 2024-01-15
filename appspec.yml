@@ -16,6 +16,7 @@ hooks:
     - location: scripts/set_laravel_permissions.sh  
       timeout: 300
       runas: root    
-    - location: scripts/php_artisian_optimize.sh  
+    # - location: scripts/php_artisian_optimize.sh  
+    - location: /var/www/html/rv-tampa.com php artisan optimize
       timeout: 300
       runas: root 
