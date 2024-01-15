@@ -12,6 +12,7 @@ hooks:
     - location: scripts/start_apache.sh
       timeout: 300
       runas: root
+  ApplicationStart:    
     - location: scripts/set_laravel_permissions.sh  
       timeout: 300
       runas: root    
